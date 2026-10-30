@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="nexoraGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#13C8F4" />
+      <stop offset="50%" stop-color="#087BEE" />
+      <stop offset="100%" stop-color="#8B5CF6" />
+    </linearGradient>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#071321" />
+      <stop offset="100%" stop-color="#0F243E" />
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="24" fill="url(#bgGrad)" />
+  <!-- Abstract N shapes -->
+  <path d="M26 74V26L48 56V26" stroke="url(#nexoraGrad)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M52 74V44L74 74V26" stroke="#13C8F4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="74" cy="26" r="4" fill="#8B5CF6" />
+</svg>
