@@ -42,12 +42,27 @@ export const LoginPage: React.FC = () => {
     }
   }
 
-  const handleDemoLogin = (role: 'business_owner' | 'super_admin') => {
-    loginAsDemo(role)
-    if (role === 'super_admin') {
-      navigate('/admin')
-    } else {
-      navigate('/dashboard')
+  const handleDemoLogin = async (role: 'business_owner' | 'super_admin') => {
+    setSubmitting(true)
+    setError(null)
+    try {
+      const targetEmail = role === 'super_admin' ? 'admin@nexora.app' : 'demo@nexora.app'
+      const targetPass = role === 'super_admin' ? 'AdminPassword123!' : 'DemoPassword123!'
+
+      const res = await login(targetEmail, targetPass)
+      if (res.success) {
+        navigate(role === 'super_admin' ? '/admin' : '/dashboard')
+        return
+      }
+
+      // Fallback
+      loginAsDemo(role)
+      navigate(role === 'super_admin' ? '/admin' : '/dashboard')
+    } catch (err: any) {
+      loginAsDemo(role)
+      navigate(role === 'super_admin' ? '/admin' : '/dashboard')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -84,7 +99,7 @@ export const LoginPage: React.FC = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="alex@cafearoma.in"
+                  placeholder="demo@nexora.app"
                   className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#087BEE]"
                 />
               </div>
@@ -123,13 +138,14 @@ export const LoginPage: React.FC = () => {
           {/* Quick Demo Access Buttons */}
           <div className="pt-4 border-t border-slate-100 space-y-2.5">
             <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block text-center">
-              Instant One-Click Demo Access
+              Instant One-Click Test Access
             </span>
 
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
                 onClick={() => handleDemoLogin('business_owner')}
+                disabled={submitting}
                 className="p-2.5 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-200 text-[#087BEE] text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
               >
                 <Store className="w-3.5 h-3.5" /> Merchant View
@@ -138,10 +154,16 @@ export const LoginPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleDemoLogin('super_admin')}
+                disabled={submitting}
                 className="p-2.5 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-700 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
               >
                 <ShieldCheck className="w-3.5 h-3.5" /> Super Admin
               </button>
+            </div>
+
+            <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200 text-[10px] text-slate-500 space-y-0.5">
+              <p><strong>Merchant:</strong> demo@nexora.app / DemoPassword123!</p>
+              <p><strong>Admin:</strong> admin@nexora.app / AdminPassword123!</p>
             </div>
           </div>
 
@@ -156,4 +178,3 @@ export const LoginPage: React.FC = () => {
     </div>
   )
 }
-

@@ -12,7 +12,7 @@ interface AuthContextType {
   isAdmin: boolean
   isDemoMode: boolean
   login: (email: string, password?: string) => Promise<{ success: boolean; error?: string }>
-  loginAsDemo: (role?: 'business_owner' | 'super_admin') => void
+  loginAsDemo: (role?: 'business_owner' | 'super_admin') => Promise<void> | void
   register: (data: {
     fullName: string
     email: string
