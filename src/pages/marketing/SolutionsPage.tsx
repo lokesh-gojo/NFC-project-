@@ -117,26 +117,26 @@ export const SolutionsPage: React.FC = () => {
   const activeIndustry = industries.find((i) => i.id === activeTab) || industries[0]
 
   return (
-    <div className="min-h-screen bg-[#F5F8FC] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#090D16] text-white flex flex-col font-sans selection:bg-cyan-500 selection:text-[#090D16]">
       <DemoBanner />
       <Navbar />
 
       <main className="flex-1 py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <span className="px-4 py-1.5 rounded-full text-xs font-black bg-blue-50 text-[#087BEE] border border-blue-200 uppercase tracking-widest inline-flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-[#087BEE]" /> Vertical Solutions
+          <span className="px-4 py-1.5 rounded-full text-xs font-black bg-cyan-950/60 text-cyan-400 border border-cyan-500/30 uppercase tracking-widest inline-flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400" /> Vertical Solutions
           </span>
-          <h1 className="text-3xl sm:text-5xl font-black text-[#071321] tracking-tight">
+          <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
             Tailored Smart NFC & QR Architecture For Modern Businesses
           </h1>
-          <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+          <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
             From busy downtown cafés to luxury boutique hotels, Nexora bridges physical customer touchpoints with modern digital experiences.
           </p>
         </div>
 
         {/* Interactive Industry Tab Switcher */}
-        <div className="bg-white p-3 rounded-3xl border border-slate-200/80 shadow-md">
+        <div className="bg-[#0E1626]/90 p-3 rounded-3xl border border-cyan-500/20 shadow-xl">
           <div className="flex items-center justify-between overflow-x-auto gap-2 pb-1 sm:pb-0">
             {industries.map((ind) => {
               const Icon = ind.icon
@@ -147,11 +147,11 @@ export const SolutionsPage: React.FC = () => {
                   onClick={() => setActiveTab(ind.id as any)}
                   className={`flex items-center gap-2.5 px-4 py-3 rounded-2xl text-xs font-bold transition-all whitespace-nowrap flex-1 justify-center ${
                     isSelected
-                      ? 'bg-[#071321] text-white shadow-md'
-                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                      ? 'bg-gradient-to-r from-[#2563EB] to-[#06B6D4] text-white shadow-lg shadow-cyan-500/25'
+                      : 'text-slate-400 hover:bg-white/5 hover:text-slate-200'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isSelected ? 'text-cyan-400' : 'text-slate-400'}`} />
+                  <Icon className={`w-4 h-4 ${isSelected ? 'text-white' : 'text-slate-500'}`} />
                   <span>{ind.title.split(',')[0]}</span>
                 </button>
               )
@@ -160,32 +160,32 @@ export const SolutionsPage: React.FC = () => {
         </div>
 
         {/* Featured Active Industry Spotlight */}
-        <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xl p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative overflow-hidden animate-in fade-in duration-300">
+        <div className="bg-[#0E1626]/90 rounded-3xl border border-cyan-500/25 shadow-2xl p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative overflow-hidden animate-in fade-in duration-300">
           <div className="lg:col-span-7 space-y-6">
             <div className="flex flex-wrap items-center gap-3">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-[#087BEE] text-xs font-black uppercase tracking-wider">
-                <activeIndustry.icon className="w-3.5 h-3.5" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950/60 text-cyan-300 text-xs font-black uppercase tracking-wider border border-cyan-500/30">
+                <activeIndustry.icon className="w-3.5 h-3.5 text-cyan-400" />
                 {activeIndustry.badge}
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#090D16] text-slate-300 text-xs font-semibold border border-slate-800">
                 Hardware: {activeIndustry.hardware}
               </span>
             </div>
 
-            <h2 className="text-2xl sm:text-4xl font-black text-[#071321] tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
               {activeIndustry.title}
             </h2>
 
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
               {activeIndustry.summary}
             </p>
 
             {/* Impact Metric Card */}
-            <div className="p-4 rounded-2xl bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200/80 flex items-center gap-4">
-              <div className="text-2xl sm:text-3xl font-black text-[#087BEE]">
+            <div className="p-4 rounded-2xl bg-gradient-to-r from-blue-950/40 to-cyan-950/40 border border-cyan-500/30 flex items-center gap-4">
+              <div className="text-2xl sm:text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(6,182,212,0.4)]">
                 {activeIndustry.stat}
               </div>
-              <div className="text-xs text-slate-700 font-medium">
+              <div className="text-xs text-slate-300 font-medium">
                 {activeIndustry.statLabel}
               </div>
             </div>
@@ -193,8 +193,8 @@ export const SolutionsPage: React.FC = () => {
             {/* Benefit Checklist */}
             <div className="space-y-3">
               {activeIndustry.benefits.map((b, idx) => (
-                <div key={idx} className="flex items-start gap-3 text-xs sm:text-sm text-slate-700 font-medium">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
+                <div key={idx} className="flex items-start gap-3 text-xs sm:text-sm text-slate-300 font-medium">
+                  <CheckCircle2 className="w-4 h-4 text-cyan-400 flex-shrink-0 mt-0.5" />
                   <span>{b}</span>
                 </div>
               ))}
@@ -203,7 +203,7 @@ export const SolutionsPage: React.FC = () => {
             <div className="pt-2 flex flex-wrap items-center gap-3">
               <Link
                 to="/auth/register"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#087BEE] to-[#13C8F4] text-white text-xs font-black shadow-md hover:shadow-lg transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#06B6D4] text-white text-xs font-black shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all border border-cyan-400/30"
               >
                 Launch Your Business Profile <ArrowRight className="w-4 h-4" />
               </Link>
@@ -211,26 +211,26 @@ export const SolutionsPage: React.FC = () => {
               <Link
                 to="/b/cafe-aroma"
                 target="_blank"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#090D16] hover:bg-[#131E34] text-slate-200 text-xs font-bold border border-cyan-500/20 transition-colors"
               >
-                <Zap className="w-4 h-4 text-[#087BEE]" /> Test Live Customer Flow
+                <Zap className="w-4 h-4 text-cyan-400" /> Test Live Customer Flow
               </Link>
             </div>
           </div>
 
           <div className="lg:col-span-5 relative">
-            <div className="rounded-3xl overflow-hidden shadow-2xl border border-slate-200 h-[380px] lg:h-[440px] relative group">
+            <div className="rounded-3xl overflow-hidden shadow-2xl border border-cyan-500/30 h-[380px] lg:h-[440px] relative group">
               <img
                 src={activeIndustry.image}
                 alt={activeIndustry.title}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col justify-end p-6 text-white">
+              <div className="absolute inset-0 bg-gradient-to-t from-[#090D16] via-transparent to-transparent flex flex-col justify-end p-6 text-white">
                 <span className="text-[10px] font-black uppercase tracking-widest text-cyan-300">
                   REAL-WORLD DEPLOYMENT
                 </span>
-                <h4 className="text-lg font-black">{activeIndustry.title}</h4>
-                <p className="text-xs text-slate-300">Integrated with Nexora Smart NFC & QR platform</p>
+                <h4 className="text-lg font-black text-white">{activeIndustry.title}</h4>
+                <p className="text-xs text-slate-400">Integrated with Nexora Smart NFC & QR platform</p>
               </div>
             </div>
           </div>
@@ -239,10 +239,10 @@ export const SolutionsPage: React.FC = () => {
         {/* 4-Step Customer Journey Timeline */}
         <div className="space-y-8">
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <h3 className="text-2xl sm:text-3xl font-black text-[#071321] tracking-tight">
+            <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
               The 4-Second Seamless Customer Journey
             </h3>
-            <p className="text-xs sm:text-sm text-slate-500">
+            <p className="text-xs sm:text-sm text-slate-400">
               Zero friction. No apps to download. Works natively on all modern smartphones.
             </p>
           </div>
@@ -282,21 +282,21 @@ export const SolutionsPage: React.FC = () => {
               return (
                 <div
                   key={idx}
-                  className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs hover:shadow-md transition-all relative space-y-3"
+                  className="bg-[#0E1626]/80 p-6 rounded-3xl border border-cyan-500/20 hover:border-cyan-400/40 shadow-xs hover:shadow-cyan-500/10 transition-all relative space-y-3"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-3xl font-black text-slate-200">{step.step}</span>
-                    <span className="text-[10px] font-bold text-[#087BEE] bg-blue-50 px-2 py-0.5 rounded-full">
+                    <span className="text-3xl font-black text-slate-800">{step.step}</span>
+                    <span className="text-[10px] font-bold text-cyan-300 bg-cyan-950/60 border border-cyan-500/30 px-2.5 py-0.5 rounded-full">
                       {step.badge}
                     </span>
                   </div>
 
-                  <div className="w-10 h-10 rounded-xl bg-slate-100 text-[#071321] flex items-center justify-center">
-                    <Icon className="w-5 h-5 text-[#087BEE]" />
+                  <div className="w-10 h-10 rounded-xl bg-cyan-950/60 border border-cyan-500/30 text-cyan-400 flex items-center justify-center">
+                    <Icon className="w-5 h-5 text-cyan-400" />
                   </div>
 
-                  <h4 className="text-base font-black text-[#071321]">{step.title}</h4>
-                  <p className="text-xs text-slate-500 leading-relaxed">{step.desc}</p>
+                  <h4 className="text-base font-black text-white">{step.title}</h4>
+                  <p className="text-xs text-slate-400 leading-relaxed">{step.desc}</p>
                 </div>
               )
             })}
@@ -304,20 +304,20 @@ export const SolutionsPage: React.FC = () => {
         </div>
 
         {/* Bottom CTA Banner */}
-        <div className="bg-gradient-to-r from-[#071321] via-[#0b2447] to-[#071321] rounded-3xl p-8 sm:p-12 text-white text-center shadow-xl space-y-4">
+        <div className="bg-gradient-to-r from-[#0E1626] via-[#121E36] to-[#090D16] rounded-3xl p-8 sm:p-12 text-white text-center shadow-2xl border border-cyan-500/30 space-y-4">
           <span className="text-xs font-bold text-cyan-300 uppercase tracking-widest">
             Ready to upgrade your physical location?
           </span>
           <h3 className="text-2xl sm:text-4xl font-black tracking-tight max-w-2xl mx-auto">
             Get Your Business Set Up with Smart NFC & QR Today
           </h3>
-          <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
+          <p className="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto">
             Start free with our complete software suite. Create your menu, generate dynamic QR codes, and connect your physical NFC tags in minutes.
           </p>
           <div className="pt-2 flex justify-center gap-3">
             <Link
               to="/auth/register"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#087BEE] hover:bg-blue-600 text-white text-xs font-black shadow-lg transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#06B6D4] text-white text-xs font-black shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all border border-cyan-400/30"
             >
               Get Started Free <ArrowRight className="w-4 h-4" />
             </Link>

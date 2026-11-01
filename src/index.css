@@ -8,6 +8,13 @@
     --brand-cyan: #13C8F4;
     --brand-violet: #8B5CF6;
     --brand-light: #F5F8FC;
+
+    /* Midnight Cyber Marketing Theme */
+    --cyber-obsidian: #090D16;
+    --cyber-surface: #0E1626;
+    --cyber-cobalt: #2563EB;
+    --cyber-cyan: #06B6D4;
+    --cyber-border: rgba(6, 182, 212, 0.2);
   }
 
   body {
@@ -107,6 +114,56 @@
     radial-gradient(at 15% 15%, rgba(8, 123, 238, 0.25) 0px, transparent 55%),
     radial-gradient(at 85% 85%, rgba(139, 92, 246, 0.2) 0px, transparent 55%),
     radial-gradient(at 50% 20%, rgba(19, 200, 244, 0.15) 0px, transparent 50%);
+}
+
+/* Midnight Cyber Theme Classes */
+.bg-cyber-obsidian {
+  background-color: #090D16;
+}
+
+.bg-cyber-surface {
+  background-color: #0E1626;
+}
+
+.bg-cyber-surface-hover:hover {
+  background-color: #131E34;
+}
+
+.border-cyber {
+  border-color: rgba(6, 182, 212, 0.2);
+}
+
+.border-cyber-glow:hover {
+  border-color: rgba(6, 182, 212, 0.5);
+  box-shadow: 0 0 25px -4px rgba(6, 182, 212, 0.25);
+}
+
+.glow-cyber-cyan {
+  box-shadow: 0 0 35px -5px rgba(6, 182, 212, 0.35);
+}
+
+.glow-cyber-cobalt {
+  box-shadow: 0 0 35px -5px rgba(37, 99, 235, 0.35);
+}
+
+.text-cyber-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #a5f3fc 50%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.mesh-gradient-cyber {
+  background: 
+    radial-gradient(at 15% 10%, rgba(37, 99, 235, 0.22) 0px, transparent 50%),
+    radial-gradient(at 85% 15%, rgba(6, 182, 212, 0.2) 0px, transparent 50%),
+    radial-gradient(at 50% 85%, rgba(79, 70, 229, 0.15) 0px, transparent 60%);
+}
+
+.bg-cyber-grid {
+  background-size: 36px 36px;
+  background-image: 
+    linear-gradient(to right, rgba(6, 182, 212, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
 }
 
 /* Keyframe animations */

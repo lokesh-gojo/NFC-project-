@@ -103,7 +103,7 @@ export const HomePage: React.FC = () => {
       tagType: 'Embedded Anti-Metal High-Gain NTAG213',
       useCase: 'Cashier Counters, Reception Desks, Baristas',
       badge: 'Tap-to-Review',
-      accent: 'from-amber-600 to-orange-500'
+      accent: 'from-cyan-600 to-blue-500'
     },
     {
       name: 'Weatherproof Disc Stand',
@@ -119,50 +119,50 @@ export const HomePage: React.FC = () => {
       tagType: 'High-Frequency NTAG216 Chip',
       useCase: 'Salon Mirrors, Hotel Nightstands, Changing Rooms',
       badge: 'Minimalist',
-      accent: 'from-purple-600 to-violet-500'
+      accent: 'from-indigo-600 to-cyan-500'
     }
   ]
 
   const features = [
     {
       icon: Radio,
-      color: 'text-purple-600',
-      bg: 'bg-purple-100',
+      color: 'text-cyan-400',
+      bg: 'bg-cyan-950/60 border border-cyan-500/30',
       title: 'Smart NFC Tap-and-Go',
       desc: 'Customers simply hold their iPhone or Android phone near your stand. Opens your web profile in sub-0.4s without any mobile app download.'
     },
     {
       icon: QrCode,
-      color: 'text-[#087BEE]',
-      bg: 'bg-blue-100',
+      color: 'text-blue-400',
+      bg: 'bg-blue-950/60 border border-blue-500/30',
       title: 'Dynamic Vector QR Tracking',
       desc: 'Print high-res QR table tents. Track individual table velocity and redirect links dynamically from your dashboard without reprinting.'
     },
     {
       icon: UtensilsCrossed,
-      color: 'text-emerald-600',
-      bg: 'bg-emerald-100',
+      color: 'text-emerald-400',
+      bg: 'bg-emerald-950/60 border border-emerald-500/30',
       title: 'Interactive Live Menu',
       desc: 'Vibrant food photography, real-time In-Stock / Sold-Out toggles, vegetarian/dietary indicators, and table order tray summary.'
     },
     {
       icon: Star,
-      color: 'text-amber-600',
-      bg: 'bg-amber-100',
+      color: 'text-amber-400',
+      bg: 'bg-amber-950/60 border border-amber-500/30',
       title: 'Google Reviews Acceleration',
       desc: 'Skyrocket your Google Maps ranking with frictionless 1-tap review redirects. Fully compliant with Google’s anti-gating regulations.'
     },
     {
       icon: MessageSquareHeart,
-      color: 'text-rose-600',
-      bg: 'bg-rose-100',
+      color: 'text-rose-400',
+      bg: 'bg-rose-950/60 border border-rose-500/30',
       title: 'Honest Private Feedback Hub',
       desc: 'Collect 1 to 5-star ratings and private recommendations accessible exclusively within your private merchant dashboard.'
     },
     {
       icon: Wifi,
-      color: 'text-cyan-600',
-      bg: 'bg-cyan-100',
+      color: 'text-cyan-300',
+      bg: 'bg-cyan-950/60 border border-cyan-500/30',
       title: 'Guest Wi-Fi Auto-Connect',
       desc: 'Generate camera-scan Wi-Fi QR codes. Customers tap to join your network instantly without typing lengthy passwords.'
     }
@@ -192,56 +192,55 @@ export const HomePage: React.FC = () => {
     }
   ]
 
-  const activeInd = industries.find((i) => i.id === selectedIndustry)!
-
   const handleSimulateTap = () => {
     setIsTapped(true)
     setTimeout(() => setIsTapped(false), 2500)
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F8FC] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#090D16] text-white flex flex-col font-sans selection:bg-cyan-500 selection:text-[#090D16]">
       <DemoBanner />
       <Navbar />
 
       {/* ============================================================== */}
-      {/* HERO SECTION: MESH GRADIENT + INTERACTIVE 3D SIMULATOR         */}
+      {/* HERO SECTION: MIDNIGHT CYBER MESH + INTERACTIVE 3D SIMULATOR   */}
       {/* ============================================================== */}
-      <section className="relative pt-12 pb-24 lg:pt-20 lg:pb-36 overflow-hidden mesh-gradient-hero bg-grid-pattern">
-        {/* Decorative radiant orbs */}
-        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[800px] h-[550px] bg-gradient-to-tr from-[#087BEE]/20 via-[#13C8F4]/15 to-[#8B5CF6]/15 rounded-full blur-3xl pointer-events-none"></div>
+      <section className="relative pt-12 pb-24 lg:pt-20 lg:pb-36 overflow-hidden mesh-gradient-cyber bg-cyber-grid">
+        {/* Decorative radiant cyber orbs */}
+        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[800px] h-[550px] bg-gradient-to-tr from-[#2563EB]/25 via-[#06B6D4]/20 to-[#4F46E5]/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-32 right-10 w-96 h-96 bg-[#06B6D4]/15 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             {/* Left Column: Core Positioning & CTAs */}
             <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-blue-500/30 text-[#087BEE] text-xs font-bold uppercase tracking-wider shadow-sm">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0E1626]/90 backdrop-blur-md border border-cyan-500/30 text-cyan-400 text-xs font-bold uppercase tracking-wider shadow-lg shadow-cyan-500/10">
                 <span className="flex h-2 w-2 relative">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#13C8F4] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#087BEE]"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#06B6D4] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#06B6D4]"></span>
                 </span>
                 <span>Next-Gen Smart Business OS</span>
-                <span className="text-slate-300">•</span>
-                <span className="text-slate-500 font-semibold">NFC + Dynamic QR</span>
+                <span className="text-slate-600">•</span>
+                <span className="text-slate-300 font-semibold">NFC + Dynamic QR</span>
               </div>
 
-              <h1 className="text-4xl sm:text-6xl lg:text-[64px] font-black text-[#071321] tracking-tight leading-[1.06]">
+              <h1 className="text-4xl sm:text-6xl lg:text-[68px] font-black tracking-tight leading-[1.05] text-white">
                 ONE TAP. <br />
-                <span className="bg-gradient-to-r from-[#087BEE] via-[#13C8F4] to-[#8B5CF6] bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-400 bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(6,182,212,0.3)]">
                   SMARTER BUSINESS.
                 </span>
               </h1>
 
-              <p className="text-base sm:text-lg text-slate-600 max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal">
-                Empower your café, restaurant, hotel or salon with intelligent physical stands. Turn customer visits into <strong>digital orders, 5-star Google reviews, automated guest Wi-Fi</strong>, and live analytics with a single tap.
+              <p className="text-base sm:text-lg text-slate-300 max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal">
+                Empower your café, restaurant, hotel or salon with intelligent physical stands. Turn customer visits into <strong className="text-white">digital orders, 5-star Google reviews, automated guest Wi-Fi</strong>, and live analytics with a single tap.
               </p>
 
               {/* Action Buttons */}
               <div className="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
                 <Link
                   to="/auth/register"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-gradient-to-r from-[#087BEE] to-[#13C8F4] text-white font-extrabold text-sm shadow-xl shadow-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/40 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-gradient-to-r from-[#2563EB] to-[#06B6D4] text-white font-black text-sm shadow-xl shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all hover:scale-[1.02] active:scale-[0.98] border border-cyan-400/40"
                 >
                   Create Your Business Profile Free
                   <ArrowRight className="w-4 h-4" />
@@ -251,62 +250,62 @@ export const HomePage: React.FC = () => {
                   to="/b/cafe-aroma"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-white text-slate-800 font-bold text-sm border border-slate-300/80 hover:border-slate-400 shadow-sm hover:bg-slate-50 transition-all"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-[#0E1626]/90 text-slate-200 font-bold text-sm border border-cyan-500/30 hover:border-cyan-400 shadow-md hover:bg-[#131E34] transition-all"
                 >
-                  <Zap className="w-4 h-4 text-[#087BEE]" />
+                  <Zap className="w-4 h-4 text-cyan-400" />
                   Explore Live Demo Venue
                 </Link>
               </div>
 
               {/* Live Metric Badges */}
-              <div className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-slate-500 font-semibold">
-                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-200 shadow-xs">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                  <span>No Mobile App Needed</span>
+              <div className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-4 text-xs text-slate-400 font-semibold">
+                <div className="flex items-center gap-2 bg-[#0E1626]/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-cyan-500/20 shadow-xs">
+                  <CheckCircle2 className="w-4 h-4 text-cyan-400" />
+                  <span className="text-slate-200">No Mobile App Needed</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-200 shadow-xs">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                  <span>Works with iOS & Android</span>
+                <div className="flex items-center gap-2 bg-[#0E1626]/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-cyan-500/20 shadow-xs">
+                  <CheckCircle2 className="w-4 h-4 text-cyan-400" />
+                  <span className="text-slate-200">Works with iOS & Android</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-200 shadow-xs">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                  <span>PostgreSQL + RLS Isolation</span>
+                <div className="flex items-center gap-2 bg-[#0E1626]/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-cyan-500/20 shadow-xs">
+                  <CheckCircle2 className="w-4 h-4 text-cyan-400" />
+                  <span className="text-slate-200">PostgreSQL + RLS Isolation</span>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Interactive 3D Phone & Acrylic Stand Showcase */}
+            {/* Right Column: Interactive 3D Phone & Stand Showcase */}
             <div className="lg:col-span-5 flex flex-col items-center justify-center relative">
               {/* Interactive Mode Switcher Pill */}
-              <div className="mb-4 bg-white/90 backdrop-blur-md p-1.5 rounded-2xl shadow-md border border-slate-200 flex items-center gap-1.5 z-30">
+              <div className="mb-4 bg-[#0E1626]/90 backdrop-blur-md p-1.5 rounded-2xl shadow-xl border border-cyan-500/30 flex items-center gap-1.5 z-30">
                 <button
                   onClick={() => setHeroSimMode('nfc')}
                   className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
                     heroSimMode === 'nfc'
-                      ? 'bg-[#071321] text-white shadow-xs'
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-gradient-to-r from-[#2563EB] to-[#06B6D4] text-white shadow-xs'
+                      : 'text-slate-400 hover:text-slate-200'
                   }`}
                 >
-                  <Radio className="w-3.5 h-3.5 text-cyan-400" /> Simulate NFC Tap
+                  <Radio className="w-3.5 h-3.5 text-cyan-200" /> Simulate NFC Tap
                 </button>
                 <button
                   onClick={() => setHeroSimMode('qr')}
                   className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
                     heroSimMode === 'qr'
-                      ? 'bg-[#071321] text-white shadow-xs'
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-gradient-to-r from-[#2563EB] to-[#06B6D4] text-white shadow-xs'
+                      : 'text-slate-400 hover:text-slate-200'
                   }`}
                 >
-                  <QrCode className="w-3.5 h-3.5 text-[#087BEE]" /> Camera QR Scan
+                  <QrCode className="w-3.5 h-3.5 text-cyan-200" /> Camera QR Scan
                 </button>
               </div>
 
               {/* 3D Realistic Phone Showcase */}
               <div className="relative w-full max-w-[340px] sm:max-w-[370px]">
-                {/* Simulated Floating Physical Stand in Background */}
+                {/* Floating Physical Stand */}
                 <div
                   onClick={handleSimulateTap}
-                  className="cursor-pointer absolute -top-8 -right-6 z-10 bg-gradient-to-br from-slate-900 via-[#071321] to-[#122846] text-white p-4 rounded-3xl shadow-2xl border-2 border-cyan-500/30 w-44 transition-all duration-300 hover:scale-105 group"
+                  className="cursor-pointer absolute -top-8 -right-6 z-10 bg-gradient-to-br from-[#0E1626] via-[#121E36] to-[#090D16] text-white p-4 rounded-3xl shadow-2xl border-2 border-cyan-400/40 w-44 transition-all duration-300 hover:scale-105 group"
                 >
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-[9px] font-extrabold uppercase tracking-widest text-cyan-300">
@@ -314,11 +313,11 @@ export const HomePage: React.FC = () => {
                     </span>
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
                     </span>
                   </div>
 
-                  <div className="relative p-2.5 bg-white/10 rounded-2xl border border-white/15 flex flex-col items-center text-center">
+                  <div className="relative p-2.5 bg-black/40 rounded-2xl border border-cyan-500/20 flex flex-col items-center text-center">
                     {/* Animated NFC Broadcast Wave Rings */}
                     <div className="relative w-12 h-12 flex items-center justify-center mb-1">
                       <span className="absolute inset-0 rounded-full border border-cyan-400/40 animate-nfc-wave"></span>
@@ -328,23 +327,23 @@ export const HomePage: React.FC = () => {
                     <span className="text-[10px] font-bold text-white group-hover:text-cyan-300 transition-colors">
                       {heroSimMode === 'nfc' ? 'Click: Tap Phone Here' : 'Scan Live QR'}
                     </span>
-                    <span className="text-[9px] text-slate-400 font-mono">T-04 Stand</span>
+                    <span className="text-[9px] text-cyan-400/80 font-mono">T-04 Stand</span>
                   </div>
                 </div>
 
                 {/* Smartphone Device Frame */}
-                <div className="bg-[#071321] p-3 rounded-[44px] shadow-2xl border-4 border-slate-800 relative overflow-hidden transition-transform duration-300 hover:shadow-cyan-500/10">
+                <div className="bg-[#050811] p-3 rounded-[44px] shadow-2xl border-4 border-cyan-500/30 relative overflow-hidden transition-transform duration-300 hover:shadow-cyan-500/20">
                   {/* Phone Speaker Notch */}
                   <div className="w-28 h-4 bg-slate-900 rounded-full mx-auto mb-2 flex items-center justify-center">
                     <span className="w-2 h-2 rounded-full bg-slate-950"></span>
                   </div>
 
                   {/* Screen Content */}
-                  <div className="bg-[#F5F8FC] rounded-[34px] overflow-hidden text-slate-900 border border-slate-200/80 text-xs shadow-inner relative">
+                  <div className="bg-[#090D16] rounded-[34px] overflow-hidden text-white border border-slate-800 text-xs shadow-inner relative">
                     {/* Interactive Tap Notification Overlay */}
                     {isTapped && (
-                      <div className="absolute inset-x-3 top-3 z-30 bg-[#071321]/95 text-white p-3 rounded-2xl shadow-xl border border-cyan-400/50 animate-in slide-in-from-top duration-300 flex items-center gap-2.5">
-                        <div className="w-7 h-7 rounded-xl bg-cyan-500 text-[#071321] flex items-center justify-center flex-shrink-0 font-bold">
+                      <div className="absolute inset-x-3 top-3 z-30 bg-[#0E1626]/95 text-white p-3 rounded-2xl shadow-xl border border-cyan-400/60 animate-in slide-in-from-top duration-300 flex items-center gap-2.5">
+                        <div className="w-7 h-7 rounded-xl bg-cyan-500 text-[#090D16] flex items-center justify-center flex-shrink-0 font-bold">
                           <Radio className="w-4 h-4 animate-pulse" />
                         </div>
                         <div className="min-w-0">
@@ -356,10 +355,12 @@ export const HomePage: React.FC = () => {
 
                     {/* QR Scan Camera Reticle in QR Mode */}
                     {heroSimMode === 'qr' && (
-                      <div className="absolute inset-x-4 top-16 z-20 bg-slate-950/80 backdrop-blur-xs p-4 rounded-2xl border border-blue-400/40 text-center text-white space-y-2 animate-in fade-in duration-200">
-                        <div className="relative w-28 h-28 mx-auto border-2 border-dashed border-cyan-400 rounded-xl flex items-center justify-center overflow-hidden">
+                      <div className="absolute inset-x-4 top-16 z-20 bg-slate-950/90 backdrop-blur-xs p-4 rounded-2xl border border-cyan-400/50 text-center text-white space-y-2 animate-in fade-in duration-200">
+                        <div className="relative w-28 h-28 mx-auto border-2 border-dashed border-cyan-400 rounded-xl flex items-center justify-center overflow-hidden bg-white/5">
                           <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse"></div>
-                          <QRCodeSVG value="https://nexora.in/b/cafe-aroma" size={80} />
+                          <div className="p-2 bg-white rounded-lg">
+                            <QRCodeSVG value="https://nexora.in/b/cafe-aroma" size={72} />
+                          </div>
                         </div>
                         <p className="text-[10px] font-bold text-cyan-300">Targeting Table 4 QR Stand</p>
                       </div>
@@ -370,14 +371,14 @@ export const HomePage: React.FC = () => {
                       <img
                         src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=600&q=80"
                         alt="Cafe Aroma"
-                        className="w-full h-full object-cover opacity-85"
+                        className="w-full h-full object-cover opacity-80"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#090D16] via-transparent to-transparent"></div>
                       <div className="absolute -bottom-5 left-4">
                         <img
                           src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=150&q=80"
                           alt="Cafe Aroma Logo"
-                          className="w-12 h-12 rounded-xl border-2 border-white shadow-md object-cover"
+                          className="w-12 h-12 rounded-xl border-2 border-cyan-500/50 shadow-md object-cover"
                         />
                       </div>
                     </div>
@@ -385,15 +386,15 @@ export const HomePage: React.FC = () => {
                     <div className="pt-7 px-4 pb-4 space-y-2.5">
                       <div className="flex items-start justify-between">
                         <div>
-                          <h4 className="font-extrabold text-sm text-[#071321] flex items-center gap-1">
+                          <h4 className="font-extrabold text-sm text-white flex items-center gap-1">
                             Cafe Aroma
-                            <Sparkles className="w-3 h-3 text-[#087BEE]" />
+                            <Sparkles className="w-3 h-3 text-cyan-400" />
                           </h4>
-                          <p className="text-[10px] text-slate-500 font-medium">
+                          <p className="text-[10px] text-slate-400 font-medium">
                             Artisanal Coffee & Fresh Sourdough
                           </p>
                         </div>
-                        <span className="text-[9px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded-full">
+                        <span className="text-[9px] font-bold text-cyan-300 bg-cyan-950/60 border border-cyan-500/30 px-2 py-0.5 rounded-full">
                           Open Now
                         </span>
                       </div>
@@ -403,26 +404,26 @@ export const HomePage: React.FC = () => {
                         <Link
                           to="/b/cafe-aroma/menu"
                           target="_blank"
-                          className="p-2.5 rounded-xl bg-gradient-to-r from-[#071321] via-[#0b2447] to-[#071321] text-white flex items-center justify-between font-bold text-[11px] shadow-sm hover:scale-[1.01] transition-transform"
+                          className="p-2.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#06B6D4] text-white flex items-center justify-between font-bold text-[11px] shadow-sm hover:scale-[1.01] transition-transform"
                         >
                           <span className="flex items-center gap-1.5">
-                            <UtensilsCrossed className="w-3.5 h-3.5 text-cyan-400" /> Digital Menu & Cart
+                            <UtensilsCrossed className="w-3.5 h-3.5 text-white" /> Digital Menu & Cart
                           </span>
-                          <span className="text-[10px] text-cyan-300 font-mono">₹240+</span>
+                          <span className="text-[10px] text-white/90 font-mono">₹240+</span>
                         </Link>
 
-                        <div className="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 flex items-center justify-between font-bold text-[11px] shadow-xs">
+                        <div className="p-2.5 rounded-xl bg-[#0E1626] border border-cyan-500/20 text-slate-200 flex items-center justify-between font-bold text-[11px] shadow-xs">
                           <span className="flex items-center gap-1.5">
-                            <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" /> Rate us on Google
+                            <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" /> Rate us on Google
                           </span>
                           <ExternalLink className="w-3 h-3 text-slate-400" />
                         </div>
 
-                        <div className="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 flex items-center justify-between font-bold text-[11px] shadow-xs">
+                        <div className="p-2.5 rounded-xl bg-[#0E1626] border border-cyan-500/20 text-slate-200 flex items-center justify-between font-bold text-[11px] shadow-xs">
                           <span className="flex items-center gap-1.5">
-                            <Wifi className="w-3.5 h-3.5 text-[#13C8F4]" /> Fast Guest Wi-Fi
+                            <Wifi className="w-3.5 h-3.5 text-cyan-400" /> Fast Guest Wi-Fi
                           </span>
-                          <span className="text-[9px] text-emerald-600 font-semibold bg-emerald-50 px-1.5 py-0.5 rounded">
+                          <span className="text-[9px] text-emerald-400 font-semibold bg-emerald-950/40 border border-emerald-500/30 px-1.5 py-0.5 rounded">
                             Auto-Connect
                           </span>
                         </div>
@@ -431,7 +432,7 @@ export const HomePage: React.FC = () => {
                       {/* Active Offer Strip */}
                       <div className="p-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl text-[10px] flex items-center justify-between font-bold">
                         <span>🔥 BOGO FREE on Flat Whites</span>
-                        <span className="bg-black/20 px-1.5 py-0.5 rounded text-[9px] font-mono">
+                        <span className="bg-black/30 px-1.5 py-0.5 rounded text-[9px] font-mono">
                           AROMACOFFEE
                         </span>
                       </div>
@@ -440,13 +441,13 @@ export const HomePage: React.FC = () => {
                 </div>
 
                 {/* Floating Stats pill */}
-                <div className="absolute -bottom-6 -left-6 z-20 bg-white/95 backdrop-blur-md p-3.5 rounded-2xl shadow-xl border border-slate-200/80 flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+                <div className="absolute -bottom-6 -left-6 z-20 bg-[#0E1626]/95 backdrop-blur-md p-3.5 rounded-2xl shadow-xl border border-cyan-500/30 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-cyan-950/60 border border-cyan-500/30 text-cyan-400 flex items-center justify-center font-bold">
                     <BarChart3 className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-xs font-black text-slate-900 block">+142% Repeat Visits</span>
-                    <span className="text-[10px] text-slate-500 font-medium">Zero friction customer loop</span>
+                    <span className="text-xs font-black text-white block">+142% Repeat Visits</span>
+                    <span className="text-[10px] text-slate-400 font-medium">Zero friction customer loop</span>
                   </div>
                 </div>
               </div>
@@ -458,16 +459,16 @@ export const HomePage: React.FC = () => {
       {/* ============================================================== */}
       {/* PHYSICAL HARDWARE SHOWCASE: TABLETENTS, PUCKS & STANDS         */}
       {/* ============================================================== */}
-      <section className="py-20 bg-white border-y border-slate-200/80">
+      <section className="py-20 bg-[#060A13] border-y border-cyan-500/20 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="px-3 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700 border border-purple-200 uppercase tracking-wider">
+            <span className="px-3.5 py-1 rounded-full text-xs font-bold bg-cyan-950/60 text-cyan-400 border border-cyan-500/30 uppercase tracking-wider">
               Physical Touchpoints
             </span>
-            <h2 className="text-3xl font-black text-[#071321] tracking-tight">
+            <h2 className="text-3xl font-black text-white tracking-tight">
               Designed to Elevate Any Dining Room or Checkout Counter
             </h2>
-            <p className="text-xs sm:text-sm text-slate-500">
+            <p className="text-xs sm:text-sm text-slate-400">
               Nexora links with any standard NTAG213 / NTAG215 hardware or self-printed table tent paper.
             </p>
           </div>
@@ -476,7 +477,7 @@ export const HomePage: React.FC = () => {
             {hardwareProducts.map((prod, idx) => (
               <div
                 key={idx}
-                className="bg-slate-50 hover:bg-white rounded-3xl border border-slate-200/80 p-6 shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between group"
+                className="bg-[#0E1626]/90 hover:bg-[#131E34] rounded-3xl border border-cyan-500/20 hover:border-cyan-400/50 p-6 shadow-lg hover:shadow-cyan-500/15 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between group"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
@@ -485,27 +486,27 @@ export const HomePage: React.FC = () => {
                     >
                       {prod.badge}
                     </span>
-                    <Radio className="w-4 h-4 text-slate-400 group-hover:text-[#087BEE] transition-colors" />
+                    <Radio className="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition-colors" />
                   </div>
 
-                  <h3 className="text-base font-bold text-[#071321] mb-1">{prod.name}</h3>
-                  <p className="text-[11px] font-semibold text-[#087BEE] mb-3">{prod.material}</p>
-                  
-                  <div className="p-3 bg-white rounded-xl border border-slate-200/80 text-[11px] text-slate-600 space-y-1">
+                  <h3 className="text-base font-bold text-white mb-1">{prod.name}</h3>
+                  <p className="text-[11px] font-semibold text-cyan-400 mb-3">{prod.material}</p>
+
+                  <div className="p-3 bg-[#090D16] rounded-xl border border-slate-800 text-[11px] text-slate-300 space-y-1">
                     <p>
-                      <strong>Chip:</strong> {prod.tagType}
+                      <strong className="text-white">Chip:</strong> {prod.tagType}
                     </p>
                     <p>
-                      <strong>Best For:</strong> {prod.useCase}
+                      <strong className="text-white">Best For:</strong> {prod.useCase}
                     </p>
                   </div>
                 </div>
 
-                <div className="pt-4 mt-4 border-t border-slate-200/60 flex items-center justify-between text-xs">
-                  <span className="text-[11px] font-bold text-slate-500">Auto-Encoded</span>
+                <div className="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between text-xs">
+                  <span className="text-[11px] font-bold text-slate-400">Auto-Encoded</span>
                   <Link
                     to="/dashboard/qr-nfc"
-                    className="text-[#087BEE] font-bold hover:underline flex items-center gap-1"
+                    className="text-cyan-400 font-bold hover:underline flex items-center gap-1"
                   >
                     Program in App <ChevronRight className="w-3.5 h-3.5" />
                   </Link>
@@ -519,12 +520,12 @@ export const HomePage: React.FC = () => {
       {/* ============================================================== */}
       {/* INTERACTIVE ROI & REVIEW GROWTH CALCULATOR                     */}
       {/* ============================================================== */}
-      <section className="py-20 bg-gradient-to-b from-[#F5F8FC] to-white">
+      <section className="py-20 bg-[#090D16] relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-br from-[#071321] via-[#0c223c] to-[#071321] text-white rounded-3xl p-8 sm:p-14 shadow-2xl border border-slate-800 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div className="bg-gradient-to-br from-[#0E1626] via-[#121E36] to-[#090D16] text-white rounded-3xl p-8 sm:p-14 shadow-2xl border border-cyan-500/25 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             {/* Left Column: Sliders */}
             <div className="lg:col-span-7 space-y-6">
-              <span className="px-3.5 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white/10 text-cyan-300 border border-white/20">
+              <span className="px-3.5 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-cyan-950/60 text-cyan-300 border border-cyan-500/30">
                 Interactive ROI Calculator
               </span>
 
@@ -537,10 +538,10 @@ export const HomePage: React.FC = () => {
               </p>
 
               {/* Slider 1: Number of Tables */}
-              <div className="space-y-2 bg-white/5 p-4 rounded-2xl border border-white/10">
+              <div className="space-y-2 bg-[#090D16]/80 p-4 rounded-2xl border border-slate-800">
                 <div className="flex justify-between text-xs font-bold">
                   <span className="text-slate-300">Tables in Your Venue:</span>
-                  <span className="text-cyan-300 font-mono text-base">{numTables} Tables</span>
+                  <span className="text-cyan-400 font-mono text-base">{numTables} Tables</span>
                 </div>
                 <input
                   type="range"
@@ -549,15 +550,15 @@ export const HomePage: React.FC = () => {
                   step="5"
                   value={numTables}
                   onChange={(e) => setNumTables(Number(e.target.value))}
-                  className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400"
+                  className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400"
                 />
               </div>
 
               {/* Slider 2: Daily Guests per table */}
-              <div className="space-y-2 bg-white/5 p-4 rounded-2xl border border-white/10">
+              <div className="space-y-2 bg-[#090D16]/80 p-4 rounded-2xl border border-slate-800">
                 <div className="flex justify-between text-xs font-bold">
                   <span className="text-slate-300">Daily Guests Per Table:</span>
-                  <span className="text-cyan-300 font-mono text-base">{guestsPerTable} Guests</span>
+                  <span className="text-cyan-400 font-mono text-base">{guestsPerTable} Guests</span>
                 </div>
                 <input
                   type="range"
@@ -566,33 +567,33 @@ export const HomePage: React.FC = () => {
                   step="1"
                   value={guestsPerTable}
                   onChange={(e) => setGuestsPerTable(Number(e.target.value))}
-                  className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-[#087BEE]"
+                  className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-[#2563EB]"
                 />
               </div>
             </div>
 
             {/* Right Column: Calculated Results Card */}
-            <div className="lg:col-span-5 bg-white/10 backdrop-blur-xl p-6 sm:p-8 rounded-3xl border border-white/20 space-y-6 text-center lg:text-left">
+            <div className="lg:col-span-5 bg-[#090D16]/90 backdrop-blur-xl p-6 sm:p-8 rounded-3xl border border-cyan-500/30 space-y-6 text-center lg:text-left shadow-xl">
               <div>
                 <span className="text-[11px] font-bold uppercase text-slate-400 tracking-wider">
                   Estimated New Google Reviews
                 </span>
-                <div className="text-4xl sm:text-5xl font-black text-cyan-300 tracking-tight mt-1">
+                <div className="text-4xl sm:text-5xl font-black text-cyan-400 tracking-tight mt-1 drop-shadow-[0_0_20px_rgba(6,182,212,0.4)]">
                   +{estimatedReviews} <span className="text-lg font-bold text-white">/ month</span>
                 </div>
-                <p className="text-[11px] text-slate-300 mt-1">
+                <p className="text-[11px] text-slate-400 mt-1">
                   Based on realistic 8% tap-to-review conversion rates
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-white/15">
+              <div className="pt-4 border-t border-slate-800">
                 <span className="text-[11px] font-bold uppercase text-slate-400 tracking-wider">
                   Annual Menu Printing Cost Saved
                 </span>
                 <div className="text-3xl sm:text-4xl font-black text-emerald-400 tracking-tight mt-1">
                   ₹{printingCostSaved.toLocaleString('en-IN')} <span className="text-sm font-bold text-white">/ year</span>
                 </div>
-                <p className="text-[11px] text-slate-300 mt-1">
+                <p className="text-[11px] text-slate-400 mt-1">
                   Saved across seasonal reprints, price adjustments & specials
                 </p>
               </div>
@@ -600,7 +601,7 @@ export const HomePage: React.FC = () => {
               <div className="pt-2">
                 <Link
                   to="/auth/register"
-                  className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#087BEE] to-[#13C8F4] text-white font-extrabold text-xs shadow-lg flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform"
+                  className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#2563EB] to-[#06B6D4] text-white font-extrabold text-xs shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform border border-cyan-400/30"
                 >
                   Claim Your Free Setup <ArrowRight className="w-4 h-4" />
                 </Link>
@@ -615,13 +616,13 @@ export const HomePage: React.FC = () => {
       {/* ============================================================== */}
       <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="text-center max-w-2xl mx-auto space-y-2">
-          <span className="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-[#087BEE] border border-blue-200 uppercase tracking-wider">
+          <span className="px-3.5 py-1 rounded-full text-xs font-bold bg-cyan-950/60 text-cyan-400 border border-cyan-500/30 uppercase tracking-wider">
             All-In-One Platform
           </span>
-          <h2 className="text-3xl font-black text-[#071321] tracking-tight">
+          <h2 className="text-3xl font-black text-white tracking-tight">
             Six Modular Superpowers in One Unified Dashboard
           </h2>
-          <p className="text-xs sm:text-sm text-slate-500">
+          <p className="text-xs sm:text-sm text-slate-400">
             No fragmented tools. Manage your physical stands, online menus, Google reviews, and guest Wi-Fi from a single hub.
           </p>
         </div>
@@ -632,15 +633,15 @@ export const HomePage: React.FC = () => {
             return (
               <div
                 key={idx}
-                className="bg-white p-7 rounded-3xl border border-slate-200/80 shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"
+                className="bg-[#0E1626]/80 p-7 rounded-3xl border border-cyan-500/20 hover:border-cyan-400/40 shadow-xs hover:shadow-cyan-500/10 transition-all duration-300 hover:-translate-y-1 group"
               >
                 <div
                   className={`w-12 h-12 rounded-2xl ${feat.bg} ${feat.color} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`}
                 >
                   <Icon className="w-6 h-6" />
                 </div>
-                <h3 className="text-base font-bold text-[#071321] mb-2">{feat.title}</h3>
-                <p className="text-xs text-slate-600 leading-relaxed">{feat.desc}</p>
+                <h3 className="text-base font-bold text-white mb-2">{feat.title}</h3>
+                <p className="text-xs text-slate-400 leading-relaxed">{feat.desc}</p>
               </div>
             )
           })}
@@ -650,16 +651,16 @@ export const HomePage: React.FC = () => {
       {/* ============================================================== */}
       {/* VERIFIED CUSTOMER CASE STUDIES & TESTIMONIALS                  */}
       {/* ============================================================== */}
-      <section className="py-20 bg-white border-t border-slate-200/80">
+      <section className="py-20 bg-[#060A13] border-t border-cyan-500/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200 uppercase tracking-wider">
+            <span className="px-3.5 py-1 rounded-full text-xs font-bold bg-amber-950/60 text-amber-400 border border-amber-500/30 uppercase tracking-wider">
               Proven Hospitality Impact
             </span>
-            <h2 className="text-3xl font-black text-[#071321] tracking-tight">
+            <h2 className="text-3xl font-black text-white tracking-tight">
               Trusted by Ambitious Venues Accelerating Growth
             </h2>
-            <p className="text-xs sm:text-sm text-slate-500">
+            <p className="text-xs sm:text-sm text-slate-400">
               Here is how dining rooms, cafés, and salons utilize Nexora NFC solutions every day.
             </p>
           </div>
@@ -668,10 +669,10 @@ export const HomePage: React.FC = () => {
             {testimonials.map((t, idx) => (
               <div
                 key={idx}
-                className="bg-slate-50 rounded-3xl p-7 border border-slate-200/80 shadow-xs flex flex-col justify-between space-y-4"
+                className="bg-[#0E1626]/90 rounded-3xl p-7 border border-cyan-500/20 shadow-lg flex flex-col justify-between space-y-4"
               >
                 <div className="space-y-3">
-                  <span className="inline-block px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold uppercase">
+                  <span className="inline-block px-2.5 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 text-[10px] font-extrabold uppercase">
                     {t.metric}
                   </span>
                   <div className="flex text-amber-400">
@@ -679,20 +680,20 @@ export const HomePage: React.FC = () => {
                       <Star key={s} className="w-4 h-4 fill-amber-400" />
                     ))}
                   </div>
-                  <p className="text-xs text-slate-700 leading-relaxed italic">
+                  <p className="text-xs text-slate-300 leading-relaxed italic">
                     "{t.quote}"
                   </p>
                 </div>
 
-                <div className="flex items-center gap-3 pt-3 border-t border-slate-200">
+                <div className="flex items-center gap-3 pt-3 border-t border-slate-800">
                   <img
                     src={t.avatar}
                     alt={t.author}
-                    className="w-10 h-10 rounded-full object-cover border border-slate-300"
+                    className="w-10 h-10 rounded-full object-cover border border-cyan-500/40"
                   />
                   <div>
-                    <h4 className="text-xs font-bold text-slate-900">{t.author}</h4>
-                    <p className="text-[10px] text-slate-500">{t.role}</p>
+                    <h4 className="text-xs font-bold text-white">{t.author}</h4>
+                    <p className="text-[10px] text-slate-400">{t.role}</p>
                   </div>
                 </div>
               </div>
@@ -704,32 +705,32 @@ export const HomePage: React.FC = () => {
       {/* ============================================================== */}
       {/* FINAL CALL TO ACTION                                           */}
       {/* ============================================================== */}
-      <section className="py-20 bg-[#071321] text-white relative overflow-hidden">
+      <section className="py-20 bg-[#090D16] text-white relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-4 text-center space-y-6 relative z-10">
           <span className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 uppercase tracking-wider">
             Zero Software Cost to Launch
           </span>
           <h2 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
             Ready to upgrade your tables to <br />
-            <span className="bg-gradient-to-r from-cyan-400 via-[#087BEE] to-purple-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-400 bg-clip-text text-transparent">
               Smart Tap-and-Engage Stands?
             </span>
           </h2>
-          <p className="text-slate-300 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
+          <p className="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
             Join forward-thinking restaurants, cafés, and salons driving more Google reviews and direct customer loyalty with Nexora Technologies.
           </p>
 
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               to="/auth/register"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl bg-gradient-to-r from-[#087BEE] to-[#13C8F4] text-white font-extrabold text-sm shadow-xl hover:shadow-cyan-500/30 hover:scale-105 transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl bg-gradient-to-r from-[#2563EB] to-[#06B6D4] text-white font-extrabold text-sm shadow-xl shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:scale-105 transition-all border border-cyan-400/30"
             >
               Get Started Free <ArrowRight className="w-4 h-4" />
             </Link>
 
             <Link
               to="/pricing"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm border border-white/20 transition-colors"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-[#0E1626] hover:bg-[#131E34] text-white font-bold text-sm border border-cyan-500/30 transition-colors"
             >
               Compare SaaS Plans
             </Link>

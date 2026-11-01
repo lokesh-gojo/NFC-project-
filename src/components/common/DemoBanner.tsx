@@ -9,16 +9,16 @@ export const DemoBanner: React.FC = () => {
   if (!isDemoMode) return null
 
   return (
-    <div className="bg-gradient-to-r from-[#071321] via-[#0b2447] to-[#071321] text-white text-xs border-b border-blue-500/20 py-2 px-4 shadow-sm z-50">
+    <div className="bg-[#050811] text-white text-xs border-b border-cyan-500/25 py-2 px-4 shadow-md z-50">
       <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <span className="flex h-2 w-2 relative">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
           </span>
-          <span className="font-semibold text-cyan-300">Demo Environment Active:</span>
+          <span className="font-bold text-cyan-400 tracking-wide">Live Demo Sandbox:</span>
           <span className="text-slate-300 hidden sm:inline">
-            Showcasing <strong>Cafe Aroma</strong> with simulated NFC, QR, and live analytics.
+            Active for <strong className="text-white">Cafe Aroma</strong> with simulated NFC tags, dynamic QR, and real-time analytics.
           </span>
         </div>
 
@@ -26,9 +26,9 @@ export const DemoBanner: React.FC = () => {
           <span className="text-slate-400 text-[11px] hidden md:inline">Quick switch:</span>
           <button
             onClick={() => loginAsDemo('business_owner')}
-            className={`px-2.5 py-1 rounded text-[11px] font-medium flex items-center gap-1 transition-colors ${
+            className={`px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1.5 transition-all ${
               user?.role === 'business_owner'
-                ? 'bg-[#087BEE] text-white shadow-sm'
+                ? 'bg-gradient-to-r from-[#2563EB] to-[#06B6D4] text-white shadow-xs'
                 : 'bg-white/10 text-slate-300 hover:bg-white/20'
             }`}
           >
@@ -37,9 +37,9 @@ export const DemoBanner: React.FC = () => {
 
           <button
             onClick={() => loginAsDemo('super_admin')}
-            className={`px-2.5 py-1 rounded text-[11px] font-medium flex items-center gap-1 transition-colors ${
+            className={`px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1.5 transition-all ${
               user?.role === 'super_admin'
-                ? 'bg-purple-600 text-white shadow-sm'
+                ? 'bg-purple-600 text-white shadow-xs'
                 : 'bg-white/10 text-slate-300 hover:bg-white/20'
             }`}
           >
@@ -50,13 +50,12 @@ export const DemoBanner: React.FC = () => {
             to={`/b/${currentBusiness?.slug || 'cafe-aroma'}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-2.5 py-1 rounded text-[11px] font-medium bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 border border-cyan-500/30 flex items-center gap-1 transition-colors"
+            className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-cyan-500/15 text-cyan-300 hover:bg-cyan-500/30 border border-cyan-500/30 flex items-center gap-1 transition-colors"
           >
-            <Globe className="w-3 h-3" /> Live Customer Profile <ArrowRight className="w-3 h-3" />
+            <Globe className="w-3 h-3 text-cyan-400" /> Customer Hub <ArrowRight className="w-3 h-3" />
           </Link>
         </div>
       </div>
     </div>
   )
 }
-
