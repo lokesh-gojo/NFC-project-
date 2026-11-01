@@ -29,7 +29,9 @@ import {
   X,
   Send,
   ShieldCheck,
-  Tag
+  Tag,
+  Globe,
+  Navigation
 } from 'lucide-react'
 import confetti from 'canvas-confetti'
 
@@ -43,6 +45,7 @@ export const BusinessProfilePage: React.FC = () => {
   // Modals state
   const [wifiModalOpen, setWifiModalOpen] = useState(false)
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false)
+  const [hoursModalOpen, setHoursModalOpen] = useState(false)
   const [copiedWifi, setCopiedWifi] = useState(false)
   const [copiedCoupon, setCopiedCoupon] = useState<string | null>(null)
 
@@ -109,6 +112,9 @@ export const BusinessProfilePage: React.FC = () => {
     if (wifi?.password) {
       navigator.clipboard.writeText(wifi.password)
       setCopiedWifi(true)
+      if (typeof navigator !== 'undefined' && navigator.vibrate) {
+        navigator.vibrate(30)
+      }
       setTimeout(() => setCopiedWifi(false), 2000)
     }
   }
@@ -116,6 +122,9 @@ export const BusinessProfilePage: React.FC = () => {
   const handleCopyCoupon = (code: string) => {
     navigator.clipboard.writeText(code)
     setCopiedCoupon(code)
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate(30)
+    }
     setTimeout(() => setCopiedCoupon(null), 2000)
   }
 
@@ -142,7 +151,7 @@ export const BusinessProfilePage: React.FC = () => {
       })
 
       setFbSubmitted(true)
-      confetti({ particleCount: 70, spread: 60, origin: { y: 0.7 } })
+      confetti({ particleCount: 75, spread: 70, origin: { y: 0.65 } })
     } catch (err) {
       console.error('Failed to submit feedback:', err)
     } finally {
@@ -160,12 +169,20 @@ export const BusinessProfilePage: React.FC = () => {
     setFeedbackModalOpen(false)
   }
 
+  const ratingEmotionMap = {
+    5: { text: 'Outstanding! 🤩', color: 'text-amber-500' },
+    4: { text: 'Very Good! 😊', color: 'text-emerald-500' },
+    3: { text: 'It was okay 😐', color: 'text-blue-500' },
+    2: { text: 'Needs Improvement 😕', color: 'text-orange-500' },
+    1: { text: 'Disappointed 😞', color: 'text-rose-500' }
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-[#F5F8FC] flex items-center justify-center p-4">
         <div className="text-center space-y-3">
           <div className="w-12 h-12 border-4 border-[#087BEE] border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="text-sm font-semibold text-slate-600">Loading business experience...</p>
+          <p className="text-xs font-bold text-slate-600">Connecting to smart profile...</p>
         </div>
       </div>
     )
@@ -174,15 +191,15 @@ export const BusinessProfilePage: React.FC = () => {
   if (!business) {
     return (
       <div className="min-h-screen bg-[#F5F8FC] flex items-center justify-center p-6 text-center">
-        <div className="max-w-md bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+        <div className="max-w-md bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
           <AlertCircle className="w-12 h-12 text-amber-500 mx-auto mb-4" />
           <h2 className="text-xl font-bold text-slate-900 mb-2">Business Profile Not Found</h2>
-          <p className="text-sm text-slate-600 mb-6">
+          <p className="text-xs text-slate-600 mb-6 leading-relaxed">
             The link you accessed does not correspond to an active business profile. Please verify the URL or contact the owner.
           </p>
           <Link
             to="/"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#087BEE] text-white text-sm font-semibold shadow hover:bg-blue-600"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#087BEE] text-white text-xs font-bold shadow hover:bg-blue-600"
           >
             Go to Nexora Technologies
           </Link>
@@ -197,24 +214,24 @@ export const BusinessProfilePage: React.FC = () => {
     : ''
 
   return (
-    <div className="min-h-screen bg-[#F5F8FC] text-slate-900 flex justify-center pb-16">
+    <div className="min-h-screen bg-[#F5F8FC] text-slate-900 flex justify-center pb-24 sm:pb-16 selection:bg-[#087BEE] selection:text-white">
       {/* Container constrained to mobile-friendly max width for pristine card experience */}
-      <div className="w-full max-w-md bg-white min-h-screen shadow-xl relative border-x border-slate-200/80 flex flex-col">
+      <div className="w-full max-w-md bg-white min-h-screen shadow-2xl relative border-x border-slate-200/80 flex flex-col">
         {/* Cover Image & Branding Header */}
-        <div className="relative h-48 w-full bg-slate-900 overflow-hidden">
+        <div className="relative h-52 w-full bg-slate-900 overflow-hidden">
           <img
             src={
               business.cover_url ||
               'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80'
             }
             alt={business.name}
-            className="w-full h-full object-cover opacity-85"
+            className="w-full h-full object-cover opacity-90 transition-transform duration-700 hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent"></div>
 
-          {/* Top Quick Actions */}
-          <div className="absolute top-4 left-4 right-4 flex items-center justify-between text-white">
-            <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-black/40 backdrop-blur-md uppercase tracking-wider border border-white/20">
+          {/* Top Quick Actions Bar */}
+          <div className="absolute top-4 left-4 right-4 flex items-center justify-between text-white z-10">
+            <span className="px-3 py-1 rounded-full text-[10px] font-black bg-black/50 backdrop-blur-md uppercase tracking-wider border border-white/20">
               {business.category}
             </span>
             <button
@@ -230,16 +247,16 @@ export const BusinessProfilePage: React.FC = () => {
                   alert('Business link copied to clipboard!')
                 }
               }}
-              className="p-2 rounded-full bg-black/40 backdrop-blur-md hover:bg-black/60 transition-colors border border-white/20"
+              className="p-2.5 rounded-full bg-black/50 backdrop-blur-md hover:bg-black/70 transition-all border border-white/20 active:scale-95"
               title="Share"
             >
               <Share2 className="w-4 h-4" />
             </button>
           </div>
 
-          {/* Business Logo Overlap */}
-          <div className="absolute -bottom-7 left-6">
-            <div className="w-20 h-20 rounded-2xl overflow-hidden border-4 border-white shadow-lg bg-white">
+          {/* Business Logo Overlap with verified glow */}
+          <div className="absolute -bottom-8 left-6 z-10">
+            <div className="w-20 h-20 rounded-2xl overflow-hidden border-4 border-white shadow-xl bg-white relative">
               <img
                 src={
                   business.logo_url ||
@@ -252,8 +269,8 @@ export const BusinessProfilePage: React.FC = () => {
           </div>
         </div>
 
-        {/* Business Title & Details */}
-        <div className="pt-10 px-6 pb-4">
+        {/* Business Title, Tagline & Status Header */}
+        <div className="pt-11 px-6 pb-4">
           <div className="flex items-start justify-between">
             <div>
               <h1 className="text-2xl font-black text-[#071321] tracking-tight flex items-center gap-1.5">
@@ -261,9 +278,19 @@ export const BusinessProfilePage: React.FC = () => {
                 <Sparkles className="w-4 h-4 text-[#087BEE]" />
               </h1>
               {business.tagline && (
-                <p className="text-sm font-medium text-slate-500 mt-0.5">{business.tagline}</p>
+                <p className="text-xs font-semibold text-slate-500 mt-0.5">{business.tagline}</p>
               )}
             </div>
+
+            {/* Live Open / Closed interactive pill */}
+            <button
+              onClick={() => setHoursModalOpen(true)}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-[11px] font-bold border border-emerald-200 transition-colors cursor-pointer"
+              title="View full opening hours"
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>Open Now</span>
+            </button>
           </div>
 
           {business.description && (
@@ -280,7 +307,7 @@ export const BusinessProfilePage: React.FC = () => {
                 onClick={() =>
                   trackEvent({ business_id: business.id, event_type: 'contact_click', meta: { channel: 'call' } })
                 }
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold transition-colors active:scale-95"
               >
                 <Phone className="w-3.5 h-3.5 text-[#087BEE]" /> Call
               </a>
@@ -293,7 +320,7 @@ export const BusinessProfilePage: React.FC = () => {
                 onClick={() =>
                   trackEvent({ business_id: business.id, event_type: 'contact_click', meta: { channel: 'whatsapp' } })
                 }
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-semibold transition-colors border border-emerald-200/50"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold transition-colors border border-emerald-200 active:scale-95"
               >
                 <MessageCircle className="w-3.5 h-3.5 text-emerald-600" /> WhatsApp
               </a>
@@ -306,9 +333,9 @@ export const BusinessProfilePage: React.FC = () => {
                 onClick={() =>
                   trackEvent({ business_id: business.id, event_type: 'contact_click', meta: { channel: 'directions' } })
                 }
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 hover:bg-blue-100 text-[#087BEE] font-semibold transition-colors border border-blue-200/50"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 hover:bg-blue-100 text-[#087BEE] font-bold transition-colors border border-blue-200 active:scale-95"
               >
-                <MapPin className="w-3.5 h-3.5" /> Directions
+                <Navigation className="w-3.5 h-3.5" /> Directions
               </a>
             )}
           </div>
@@ -316,27 +343,27 @@ export const BusinessProfilePage: React.FC = () => {
 
         {/* ACTIVE OFFERS BANNER */}
         {offers.length > 0 && (
-          <div className="mx-6 mb-4 p-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-white shadow-md">
+          <div className="mx-6 mb-4 p-4 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-white shadow-lg animate-in fade-in duration-300">
             <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider mb-1">
-              <span className="flex items-center gap-1">
+              <span className="flex items-center gap-1 text-[11px]">
                 <Tag className="w-3.5 h-3.5" /> Special Offer
               </span>
-              <span className="bg-white/20 px-2 py-0.5 rounded-md text-[10px]">
+              <span className="bg-white/20 backdrop-blur-xs px-2 py-0.5 rounded-md text-[10px] font-extrabold">
                 {offers[0].discount_tag || 'PROMO'}
               </span>
             </div>
             <h4 className="text-sm font-extrabold leading-tight">{offers[0].title}</h4>
             {offers[0].description && (
-              <p className="text-xs text-white/90 mt-1 line-clamp-2">{offers[0].description}</p>
+              <p className="text-xs text-white/95 mt-1 line-clamp-2">{offers[0].description}</p>
             )}
             {offers[0].coupon_code && (
-              <div className="mt-2.5 flex items-center justify-between bg-black/20 rounded-xl px-3 py-1.5 backdrop-blur-xs">
+              <div className="mt-2.5 flex items-center justify-between bg-black/25 rounded-xl px-3 py-1.5 backdrop-blur-xs">
                 <span className="font-mono text-xs font-bold tracking-wider">
                   Code: {offers[0].coupon_code}
                 </span>
                 <button
                   onClick={() => handleCopyCoupon(offers[0].coupon_code!)}
-                  className="text-xs font-semibold flex items-center gap-1 text-white hover:text-amber-200"
+                  className="text-xs font-bold flex items-center gap-1 text-white hover:text-amber-200"
                 >
                   {copiedCoupon === offers[0].coupon_code ? (
                     <>
@@ -344,7 +371,7 @@ export const BusinessProfilePage: React.FC = () => {
                     </>
                   ) : (
                     <>
-                      <Copy className="w-3.5 h-3.5" /> Copy
+                      <Copy className="w-3.5 h-3.5" /> Copy Code
                     </>
                   )}
                 </button>
@@ -354,26 +381,26 @@ export const BusinessProfilePage: React.FC = () => {
         )}
 
         {/* PRIMARY ACTION CARDS */}
-        <div className="px-6 space-y-3.5 flex-1">
+        <div className="px-6 space-y-3 flex-1">
           {/* 1. Digital Menu Button */}
           <Link
             to={`/b/${business.slug}/menu`}
             onClick={() =>
               trackEvent({ business_id: business.id, event_type: 'menu_view' })
             }
-            className="group block p-4 rounded-2xl bg-gradient-to-r from-[#071321] via-[#0b2447] to-[#071321] text-white shadow-lg shadow-navy-950/20 hover:shadow-xl transition-all duration-300 hover:scale-[1.01]"
+            className="group block p-4 rounded-2xl bg-gradient-to-r from-[#071321] via-[#0b2447] to-[#071321] text-white shadow-xl shadow-navy-950/20 hover:shadow-2xl transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] border border-blue-500/20"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3.5">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-[#087BEE] to-[#13C8F4] flex items-center justify-center shadow-md">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#087BEE] to-[#13C8F4] flex items-center justify-center shadow-md">
                   <UtensilsCrossed className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white group-hover:text-cyan-300 transition-colors">
+                  <h3 className="text-base font-black text-white group-hover:text-cyan-300 transition-colors">
                     Explore Digital Menu
                   </h3>
                   <p className="text-xs text-slate-300">
-                    Live prices, food photos & specialty items
+                    Live prices, food photos & order cart
                   </p>
                 </div>
               </div>
@@ -385,11 +412,11 @@ export const BusinessProfilePage: React.FC = () => {
           {business.is_google_review_enabled && (
             <button
               onClick={handleGoogleReviewClick}
-              className="w-full group p-4 rounded-2xl bg-white border border-slate-200 hover:border-blue-400 shadow-sm hover:shadow-md transition-all duration-200 text-left"
+              className="w-full group p-4 rounded-2xl bg-white border border-slate-200 hover:border-amber-400 shadow-xs hover:shadow-md transition-all duration-200 text-left active:scale-[0.99]"
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3.5">
-                  <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
                     <Star className="w-6 h-6 text-amber-500 fill-amber-500" />
                   </div>
                   <div>
@@ -410,11 +437,11 @@ export const BusinessProfilePage: React.FC = () => {
           {/* 3. Honest Feedback */}
           <button
             onClick={() => setFeedbackModalOpen(true)}
-            className="w-full group p-4 rounded-2xl bg-white border border-slate-200 hover:border-purple-400 shadow-sm hover:shadow-md transition-all duration-200 text-left"
+            className="w-full group p-4 rounded-2xl bg-white border border-slate-200 hover:border-purple-400 shadow-xs hover:shadow-md transition-all duration-200 text-left active:scale-[0.99]"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3.5">
-                <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
                   <MessageSquareHeart className="w-6 h-6 text-purple-600" />
                 </div>
                 <div>
@@ -434,11 +461,11 @@ export const BusinessProfilePage: React.FC = () => {
           {wifi?.is_enabled && (
             <button
               onClick={handleOpenWifi}
-              className="w-full group p-4 rounded-2xl bg-white border border-slate-200 hover:border-cyan-400 shadow-sm hover:shadow-md transition-all duration-200 text-left"
+              className="w-full group p-4 rounded-2xl bg-white border border-slate-200 hover:border-cyan-400 shadow-xs hover:shadow-md transition-all duration-200 text-left active:scale-[0.99]"
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3.5">
-                  <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center">
                     <Wifi className="w-6 h-6 text-[#13C8F4]" />
                   </div>
                   <div>
@@ -455,8 +482,11 @@ export const BusinessProfilePage: React.FC = () => {
             </button>
           )}
 
-          {/* Location & Opening Hours Accordion Card */}
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+          {/* Location & Opening Hours Card */}
+          <div
+            onClick={() => setHoursModalOpen(true)}
+            className="p-4 rounded-2xl bg-slate-50 hover:bg-slate-100/80 border border-slate-200/80 space-y-2.5 transition-colors cursor-pointer"
+          >
             <div className="flex items-start gap-2.5">
               <MapPin className="w-4 h-4 text-[#087BEE] flex-shrink-0 mt-0.5" />
               <div className="text-xs text-slate-700">
@@ -465,15 +495,14 @@ export const BusinessProfilePage: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex items-start gap-2.5 pt-2 border-t border-slate-200">
-              <Clock className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
-              <div className="text-xs text-slate-700 flex-1">
-                <span className="font-bold text-slate-900">Hours Today:</span>{' '}
-                <span className="inline-block px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-semibold text-[10px] ml-1">
-                  Open Now
-                </span>
-                <p className="text-[11px] text-slate-500 mt-0.5">08:00 AM – 10:00 PM</p>
+            <div className="flex items-center justify-between pt-2 border-t border-slate-200 text-xs">
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                <span className="font-bold text-slate-800">Hours Today: 08:00 AM – 10:00 PM</span>
               </div>
+              <span className="text-[#087BEE] font-bold text-[11px] hover:underline flex items-center gap-0.5">
+                Full Week <ChevronRight className="w-3 h-3" />
+              </span>
             </div>
           </div>
         </div>
@@ -486,10 +515,107 @@ export const BusinessProfilePage: React.FC = () => {
           >
             <span>Powered by</span>
             <span className="font-bold text-[#071321]">NEXORA TECHNOLOGIES</span>
-            <span className="text-[10px] text-blue-600 bg-blue-50 px-1 py-0.5 rounded">Smart NFC</span>
+            <span className="text-[10px] text-blue-600 bg-blue-50 px-1 py-0.5 rounded font-bold">
+              Smart NFC
+            </span>
           </Link>
-          <p className="text-[10px] text-slate-400 mt-1">One Tap. Smarter Business.</p>
+          <p className="text-[10px] text-slate-400 mt-1">ONE TAP. SMARTER BUSINESS.</p>
         </div>
+
+        {/* ============================================================== */}
+        {/* FLOATING QUICK BAR FOR MOBILE                                  */}
+        {/* ============================================================== */}
+        <div className="fixed bottom-3 inset-x-4 max-w-md mx-auto z-40 sm:hidden">
+          <div className="bg-[#071321]/95 backdrop-blur-md text-white rounded-2xl p-2 shadow-2xl border border-slate-800 flex items-center justify-around text-xs">
+            {business.phone && (
+              <a
+                href={`tel:${business.phone}`}
+                className="flex flex-col items-center gap-0.5 p-1.5 hover:text-cyan-300"
+              >
+                <Phone className="w-4 h-4" />
+                <span className="text-[10px] font-bold">Call</span>
+              </a>
+            )}
+            {business.whatsapp && (
+              <a
+                href={`https://wa.me/${business.whatsapp.replace(/[^0-9]/g, '')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col items-center gap-0.5 p-1.5 hover:text-emerald-400 text-emerald-400"
+              >
+                <MessageCircle className="w-4 h-4" />
+                <span className="text-[10px] font-bold">WhatsApp</span>
+              </a>
+            )}
+            {business.google_maps_url && (
+              <a
+                href={business.google_maps_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col items-center gap-0.5 p-1.5 hover:text-cyan-300"
+              >
+                <MapPin className="w-4 h-4 text-blue-400" />
+                <span className="text-[10px] font-bold">Map</span>
+              </a>
+            )}
+            <Link
+              to={`/b/${business.slug}/menu`}
+              className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#087BEE] to-[#13C8F4] text-white font-extrabold text-[11px] shadow-sm ml-1"
+            >
+              <UtensilsCrossed className="w-3.5 h-3.5" /> Menu
+            </Link>
+          </div>
+        </div>
+
+        {/* ============================================================== */}
+        {/* MODAL: WEEKLY SCHEDULE                                         */}
+        {/* ============================================================== */}
+        {hoursModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
+            <div className="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl relative border border-slate-100">
+              <button
+                onClick={() => setHoursModalOpen(false)}
+                className="absolute top-4 right-4 p-2 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="text-center space-y-1 mb-4">
+                <div className="w-11 h-11 rounded-2xl bg-blue-50 text-[#087BEE] flex items-center justify-center mx-auto">
+                  <Clock className="w-6 h-6" />
+                </div>
+                <h3 className="text-base font-bold text-[#071321]">Weekly Operating Hours</h3>
+                <p className="text-xs text-slate-500">Service times for {business.name}</p>
+              </div>
+
+              <div className="divide-y divide-slate-100 text-xs">
+                {(
+                  [
+                    ['Monday', '08:00 AM – 10:00 PM'],
+                    ['Tuesday', '08:00 AM – 10:00 PM'],
+                    ['Wednesday', '08:00 AM – 10:00 PM'],
+                    ['Thursday', '08:00 AM – 10:00 PM'],
+                    ['Friday', '08:00 AM – 11:00 PM'],
+                    ['Saturday', '08:00 AM – 11:00 PM'],
+                    ['Sunday', '09:00 AM – 09:00 PM']
+                  ] as const
+                ).map(([day, hours], i) => (
+                  <div key={day} className="py-2 flex items-center justify-between">
+                    <span className="font-semibold text-slate-700">{day}</span>
+                    <span className="font-mono text-slate-600">{hours}</span>
+                  </div>
+                ))}
+              </div>
+
+              <button
+                onClick={() => setHoursModalOpen(false)}
+                className="mt-5 w-full py-2.5 rounded-xl bg-[#071321] text-white text-xs font-bold hover:bg-slate-800 transition-colors"
+              >
+                Close Schedule
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* ============================================================== */}
         {/* MODAL: GUEST WI-FI CONNECT                                     */}
@@ -566,7 +692,7 @@ export const BusinessProfilePage: React.FC = () => {
         )}
 
         {/* ============================================================== */}
-        {/* MODAL: HONEST CUSTOMER FEEDBACK                                */}
+        {/* MODAL: HONEST CUSTOMER FEEDBACK WITH EMOJI RATING             */}
         {/* ============================================================== */}
         {feedbackModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
@@ -583,10 +709,10 @@ export const BusinessProfilePage: React.FC = () => {
                   <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
                     <ShieldCheck className="w-8 h-8" />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-900">Thank You for Your Feedback!</h3>
+                  <h3 className="text-lg font-bold text-slate-900">Thank You for Your Voice!</h3>
                   <p className="text-xs text-slate-600 leading-relaxed">
-                    Your response has been privately delivered to the management of{' '}
-                    <strong>{business.name}</strong>. We value your voice and continuously strive to exceed expectations.
+                    Your feedback has been privately delivered to the leadership of{' '}
+                    <strong>{business.name}</strong>.
                   </p>
                   <button
                     onClick={resetFeedbackForm}
@@ -603,25 +729,30 @@ export const BusinessProfilePage: React.FC = () => {
                     </div>
                     <h3 className="text-lg font-bold text-[#071321]">Honest Customer Feedback</h3>
                     <p className="text-xs text-slate-500">
-                      Your thoughts go directly to the business owners to improve service.
+                      Your response goes directly to the business owner to improve quality.
                     </p>
                   </div>
 
-                  {/* Rating 1 to 5 Stars */}
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 text-center mb-2">
+                  {/* Rating 1 to 5 Stars with Emotion */}
+                  <div className="text-center">
+                    <label className="block text-xs font-bold text-slate-700 mb-2">
                       How was your overall experience?
                     </label>
-                    <div className="flex justify-center gap-2">
+                    <div className="flex justify-center gap-2 mb-1.5">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <button
                           key={star}
                           type="button"
-                          onClick={() => setRating(star)}
-                          className="p-1 transition-transform hover:scale-110 focus:outline-none"
+                          onClick={() => {
+                            setRating(star)
+                            if (typeof navigator !== 'undefined' && navigator.vibrate) {
+                              navigator.vibrate(20)
+                            }
+                          }}
+                          className="p-1 transition-transform hover:scale-125 focus:outline-none"
                         >
                           <Star
-                            className={`w-8 h-8 ${
+                            className={`w-8 h-8 transition-colors ${
                               star <= rating
                                 ? 'text-amber-400 fill-amber-400'
                                 : 'text-slate-200 fill-slate-100'
@@ -630,9 +761,12 @@ export const BusinessProfilePage: React.FC = () => {
                         </button>
                       ))}
                     </div>
+                    <p className={`text-xs font-black ${ratingEmotionMap[rating as keyof typeof ratingEmotionMap].color}`}>
+                      {ratingEmotionMap[rating as keyof typeof ratingEmotionMap].text}
+                    </p>
                   </div>
 
-                  {/* Feedback Category */}
+                  {/* Feedback Topic Chips */}
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                       Feedback Topic
@@ -640,19 +774,19 @@ export const BusinessProfilePage: React.FC = () => {
                     <div className="grid grid-cols-3 gap-2">
                       {(
                         [
-                          ['food', 'Food Quality'],
-                          ['service', 'Service'],
-                          ['cleanliness', 'Cleanliness'],
-                          ['pricing', 'Pricing'],
-                          ['ambience', 'Ambience'],
-                          ['other', 'General']
+                          ['food', '🍲 Food'],
+                          ['service', '👨‍🍳 Service'],
+                          ['cleanliness', '🧼 Hygiene'],
+                          ['pricing', '🏷️ Value'],
+                          ['ambience', '🎵 Ambience'],
+                          ['other', '💡 Other']
                         ] as const
                       ).map(([key, label]) => (
                         <button
                           key={key}
                           type="button"
                           onClick={() => setFbCategory(key)}
-                          className={`py-1.5 px-2 rounded-lg text-[11px] font-semibold border transition-all ${
+                          className={`py-1.5 px-2 rounded-lg text-[11px] font-bold border transition-all ${
                             fbCategory === key
                               ? 'bg-[#087BEE] text-white border-[#087BEE] shadow-xs'
                               : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
@@ -729,4 +863,3 @@ export const BusinessProfilePage: React.FC = () => {
     </div>
   )
 }
-

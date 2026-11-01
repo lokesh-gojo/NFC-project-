@@ -20,8 +20,13 @@ import {
   Info,
   CheckCircle2,
   Sparkles,
-  Share2
+  Share2,
+  Check,
+  Coffee,
+  Heart,
+  Eye
 } from 'lucide-react'
+import confetti from 'canvas-confetti'
 
 export const DigitalMenuPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>()
@@ -40,6 +45,9 @@ export const DigitalMenuPage: React.FC = () => {
   // Simulated Order Tray / Cart
   const [cart, setCart] = useState<{ item: MenuItem; count: number }[]>([])
   const [cartOpen, setCartOpen] = useState(false)
+  const [tableNumber, setTableNumber] = useState('Table 4')
+  const [orderPlaced, setOrderPlaced] = useState(false)
+  const [toastMessage, setToastMessage] = useState<string | null>(null)
 
   useEffect(() => {
     async function loadMenu() {
@@ -95,6 +103,10 @@ export const DigitalMenuPage: React.FC = () => {
 
   // Cart operations
   const addToCart = (item: MenuItem) => {
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate(25)
+    }
+
     setCart((prev) => {
       const existing = prev.find((i) => i.item.id === item.id)
       if (existing) {
@@ -104,6 +116,9 @@ export const DigitalMenuPage: React.FC = () => {
       }
       return [...prev, { item, count: 1 }]
     })
+
+    setToastMessage(`Added "${item.name}" to tray`)
+    setTimeout(() => setToastMessage(null), 1800)
   }
 
   const removeFromCart = (itemId: string) => {
@@ -122,12 +137,22 @@ export const DigitalMenuPage: React.FC = () => {
     return cart.reduce((sum, item) => sum + item.count, 0)
   }, [cart])
 
+  const handleConfirmOrder = () => {
+    setOrderPlaced(true)
+    confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } })
+    setTimeout(() => {
+      setOrderPlaced(false)
+      setCart([])
+      setCartOpen(false)
+    }, 2800)
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-[#F5F8FC] flex items-center justify-center p-4">
         <div className="text-center space-y-3">
           <div className="w-12 h-12 border-4 border-[#087BEE] border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="text-sm font-semibold text-slate-600">Preparing digital menu...</p>
+          <p className="text-xs font-bold text-slate-600">Preparing live digital menu...</p>
         </div>
       </div>
     )
@@ -136,35 +161,35 @@ export const DigitalMenuPage: React.FC = () => {
   if (!business) {
     return (
       <div className="min-h-screen bg-[#F5F8FC] flex items-center justify-center p-6 text-center">
-        <div className="max-w-md bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+        <div className="max-w-md bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
           <h2 className="text-xl font-bold text-slate-900 mb-2">Menu Not Found</h2>
-          <p className="text-sm text-slate-600 mb-4">The menu could not be loaded.</p>
-          <Link to="/" className="text-sm font-semibold text-[#087BEE]">Back to home</Link>
+          <p className="text-xs text-slate-600 mb-4">The menu could not be loaded.</p>
+          <Link to="/" className="text-xs font-bold text-[#087BEE]">Back to home</Link>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F8FC] text-slate-900 flex justify-center pb-24">
-      <div className="w-full max-w-md bg-white min-h-screen shadow-xl relative border-x border-slate-200/80 flex flex-col">
+    <div className="min-h-screen bg-[#F5F8FC] text-slate-900 flex justify-center pb-28 selection:bg-[#087BEE] selection:text-white">
+      <div className="w-full max-w-md bg-white min-h-screen shadow-2xl relative border-x border-slate-200/80 flex flex-col">
         {/* Sticky Header with Back Button & Search */}
         <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 py-3 shadow-xs">
           <div className="flex items-center justify-between mb-3">
             <Link
               to={`/b/${business.slug}`}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-[#087BEE] p-1.5 rounded-lg hover:bg-slate-100 transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-[#087BEE] p-1.5 rounded-xl hover:bg-slate-100 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Profile</span>
             </Link>
 
             <div className="text-center">
-              <h2 className="text-sm font-black text-[#071321] tracking-tight truncate max-w-[180px]">
+              <h2 className="text-sm font-black text-[#071321] tracking-tight truncate max-w-[170px]">
                 {business.name}
               </h2>
-              <span className="text-[10px] font-semibold text-emerald-600 uppercase tracking-wider">
-                Live Digital Menu
+              <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">
+                Live Interactive Menu
               </span>
             </div>
 
@@ -174,10 +199,10 @@ export const DigitalMenuPage: React.FC = () => {
                   navigator.share({ title: `${business.name} Menu`, url: window.location.href })
                 } else {
                   navigator.clipboard.writeText(window.location.href)
-                  alert('Menu URL copied!')
+                  alert('Menu link copied!')
                 }
               }}
-              className="p-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-colors"
+              className="p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors"
               title="Share Menu"
             >
               <Share2 className="w-4 h-4" />
@@ -191,8 +216,8 @@ export const DigitalMenuPage: React.FC = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search dishes, drinks, ingredients..."
-              className="w-full pl-9 pr-4 py-2 rounded-xl bg-slate-100 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#087BEE] focus:bg-white transition-all border border-transparent focus:border-slate-200"
+              placeholder="Search dishes, coffees, desserts..."
+              className="w-full pl-9 pr-8 py-2 rounded-xl bg-slate-100 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#087BEE] focus:bg-white transition-all border border-transparent focus:border-slate-200"
             />
             {searchQuery && (
               <button
@@ -208,30 +233,30 @@ export const DigitalMenuPage: React.FC = () => {
           <div className="flex items-center gap-2 mt-2.5 overflow-x-auto pb-1 no-scrollbar text-xs">
             <button
               onClick={() => setFilterVegOnly(!filterVegOnly)}
-              className={`flex-shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold transition-all ${
+              className={`flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold transition-all ${
                 filterVegOnly
                   ? 'bg-emerald-600 text-white shadow-xs'
-                  : 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100'
+                  : 'bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100'
               }`}
             >
-              <Leaf className="w-3 h-3" /> Veg Only
+              <Leaf className="w-3 h-3" /> Vegetarian Only
             </button>
 
             <button
               onClick={() => setFilterPopularOnly(!filterPopularOnly)}
-              className={`flex-shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold transition-all ${
+              className={`flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold transition-all ${
                 filterPopularOnly
                   ? 'bg-amber-600 text-white shadow-xs'
-                  : 'bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100'
+                  : 'bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100'
               }`}
             >
-              <Flame className="w-3 h-3" /> Popular Picks
+              <Flame className="w-3 h-3" /> Chef's Picks
             </button>
           </div>
         </div>
 
         {/* Category Horizontal Navigation */}
-        <div className="bg-slate-50 border-b border-slate-200 px-4 py-2.5 overflow-x-auto flex gap-2 sticky top-[108px] z-20">
+        <div className="bg-slate-50 border-b border-slate-200 px-4 py-2.5 overflow-x-auto flex gap-2 sticky top-[108px] z-20 no-scrollbar">
           <button
             onClick={() => setSelectedCategory('all')}
             className={`flex-shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
@@ -260,13 +285,23 @@ export const DigitalMenuPage: React.FC = () => {
           })}
         </div>
 
+        {/* Temporary Toast Pill Notification */}
+        {toastMessage && (
+          <div className="fixed top-20 inset-x-0 z-50 flex justify-center pointer-events-none px-4">
+            <div className="bg-[#071321] text-white text-xs font-bold px-4 py-2 rounded-full shadow-2xl border border-cyan-400/40 flex items-center gap-1.5 animate-in slide-in-from-top-2 duration-200">
+              <Check className="w-3.5 h-3.5 text-cyan-400" />
+              <span>{toastMessage}</span>
+            </div>
+          </div>
+        )}
+
         {/* Menu Items List */}
         <div className="p-4 space-y-3.5 flex-1">
           {filteredItems.length === 0 ? (
-            <div className="text-center py-12 px-4">
-              <Info className="w-10 h-10 text-slate-300 mx-auto mb-2" />
-              <p className="text-sm font-bold text-slate-700">No items match your criteria</p>
-              <p className="text-xs text-slate-500 mt-1">Try resetting your search query or dietary filters.</p>
+            <div className="text-center py-12 px-4 space-y-2">
+              <Info className="w-10 h-10 text-slate-300 mx-auto" />
+              <p className="text-sm font-bold text-slate-700">No dishes match your filters</p>
+              <p className="text-xs text-slate-500">Try adjusting your search query or dietary filters.</p>
               <button
                 onClick={() => {
                   setSelectedCategory('all')
@@ -274,7 +309,7 @@ export const DigitalMenuPage: React.FC = () => {
                   setFilterVegOnly(false)
                   setFilterPopularOnly(false)
                 }}
-                className="mt-4 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700"
+                className="mt-3 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-700"
               >
                 Clear all filters
               </button>
@@ -286,8 +321,8 @@ export const DigitalMenuPage: React.FC = () => {
               return (
                 <div
                   key={item.id}
-                  className={`p-3.5 rounded-2xl bg-white border border-slate-200/80 shadow-xs hover:shadow-md transition-all flex gap-3.5 relative overflow-hidden ${
-                    !item.is_available ? 'opacity-60 grayscale-[30%]' : ''
+                  className={`p-3.5 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md transition-all flex gap-3.5 relative overflow-hidden group ${
+                    !item.is_available ? 'opacity-55 grayscale-[25%]' : ''
                   }`}
                 >
                   {/* Left: Text & Details */}
@@ -311,15 +346,15 @@ export const DigitalMenuPage: React.FC = () => {
                         </span>
 
                         {item.is_popular && (
-                          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 text-[10px] font-bold">
-                            <Sparkles className="w-2.5 h-2.5" /> Chef's Favorite
+                          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 text-[10px] font-extrabold">
+                            <Sparkles className="w-2.5 h-2.5" /> Chef's Pick
                           </span>
                         )}
                       </div>
 
                       <h3
                         onClick={() => setActiveItemModal(item)}
-                        className="text-sm font-bold text-slate-900 cursor-pointer hover:text-[#087BEE] transition-colors leading-snug"
+                        className="text-sm font-extrabold text-slate-900 cursor-pointer hover:text-[#087BEE] transition-colors leading-snug"
                       >
                         {item.name}
                       </h3>
@@ -332,7 +367,7 @@ export const DigitalMenuPage: React.FC = () => {
                     </div>
 
                     <div className="mt-3 flex items-center justify-between">
-                      <span className="text-sm font-extrabold text-[#071321]">
+                      <span className="text-sm font-black text-[#071321]">
                         {formatCurrency(item.price, business.currency)}
                       </span>
 
@@ -341,7 +376,7 @@ export const DigitalMenuPage: React.FC = () => {
                           <div className="flex items-center gap-2 bg-[#071321] text-white px-2 py-1 rounded-xl shadow-xs">
                             <button
                               onClick={() => removeFromCart(item.id)}
-                              className="p-1 hover:text-cyan-400"
+                              className="p-1 hover:text-cyan-400 active:scale-90"
                             >
                               <Minus className="w-3 h-3" />
                             </button>
@@ -350,7 +385,7 @@ export const DigitalMenuPage: React.FC = () => {
                             </span>
                             <button
                               onClick={() => addToCart(item)}
-                              className="p-1 hover:text-cyan-400"
+                              className="p-1 hover:text-cyan-400 active:scale-90"
                             >
                               <Plus className="w-3 h-3" />
                             </button>
@@ -358,32 +393,35 @@ export const DigitalMenuPage: React.FC = () => {
                         ) : (
                           <button
                             onClick={() => addToCart(item)}
-                            className="px-3 py-1.5 rounded-xl bg-blue-50 text-[#087BEE] hover:bg-[#087BEE] hover:text-white text-xs font-bold border border-blue-200 hover:border-transparent transition-all flex items-center gap-1 shadow-xs"
+                            className="px-3.5 py-1.5 rounded-xl bg-blue-50 text-[#087BEE] hover:bg-[#087BEE] hover:text-white text-xs font-extrabold border border-blue-200 hover:border-transparent transition-all flex items-center gap-1 shadow-xs active:scale-95"
                           >
                             <Plus className="w-3.5 h-3.5" /> Add
                           </button>
                         )
                       ) : (
-                        <span className="text-[11px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded">
+                        <span className="text-[11px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded">
                           Sold Out
                         </span>
                       )}
                     </div>
                   </div>
 
-                  {/* Right: Item Image */}
+                  {/* Right: Item Image with Zoom Cue */}
                   <div
                     onClick={() => setActiveItemModal(item)}
-                    className="w-24 h-24 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0 cursor-pointer relative shadow-inner"
+                    className="w-24 h-24 rounded-2xl overflow-hidden bg-slate-100 flex-shrink-0 cursor-pointer relative shadow-inner group/img"
                   >
                     <img
                       src={item.image_url}
                       alt={item.name}
-                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover/img:scale-105"
                       loading="lazy"
                     />
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center text-white">
+                      <Eye className="w-4 h-4" />
+                    </div>
                     {item.calories && (
-                      <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-black/60 backdrop-blur-xs text-[9px] font-bold text-white">
+                      <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-black/70 backdrop-blur-xs text-[9px] font-bold text-white">
                         {item.calories} kcal
                       </span>
                     )}
@@ -394,25 +432,25 @@ export const DigitalMenuPage: React.FC = () => {
           )}
         </div>
 
-        {/* Floating Cart Pill (if items in cart) */}
+        {/* Floating Cart Pill at Bottom */}
         {totalCartCount > 0 && (
           <div className="fixed bottom-4 left-0 right-0 z-40 px-4 max-w-md mx-auto">
             <button
               onClick={() => setCartOpen(true)}
-              className="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-[#071321] via-[#0b2447] to-[#071321] text-white shadow-xl shadow-navy-950/30 flex items-center justify-between border border-blue-500/30 animate-in slide-in-from-bottom-4 duration-300"
+              className="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-[#071321] via-[#0b2447] to-[#071321] text-white shadow-2xl shadow-navy-950/40 flex items-center justify-between border border-cyan-400/40 animate-in slide-in-from-bottom-4 duration-300 active:scale-[0.99]"
             >
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-xl bg-[#087BEE] flex items-center justify-center font-bold text-xs text-white">
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#087BEE] to-[#13C8F4] flex items-center justify-center font-black text-xs text-white">
                   {totalCartCount}
                 </div>
                 <div className="text-left">
-                  <p className="text-xs font-bold text-white leading-none">View Table Order</p>
-                  <p className="text-[10px] text-cyan-300 mt-0.5">Ready to order</p>
+                  <p className="text-xs font-black text-white leading-none">View Table Order</p>
+                  <p className="text-[10px] text-cyan-300 font-semibold mt-0.5">{tableNumber}</p>
                 </div>
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="text-sm font-extrabold text-white">
+                <span className="text-sm font-black text-white">
                   {formatCurrency(totalCartPrice, business.currency)}
                 </span>
                 <ShoppingBag className="w-4 h-4 text-cyan-400" />
@@ -422,19 +460,19 @@ export const DigitalMenuPage: React.FC = () => {
         )}
 
         {/* ============================================================== */}
-        {/* MODAL: ITEM DETAILS                                            */}
+        {/* MODAL: DISH DETAIL LIGHTBOX                                   */}
         {/* ============================================================== */}
         {activeItemModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
-            <div className="bg-white w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl relative border border-slate-100 animate-in fade-in zoom-in-95 duration-200">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-xs animate-in fade-in duration-200">
+            <div className="bg-white w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl relative border border-slate-100">
               <button
                 onClick={() => setActiveItemModal(null)}
-                className="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 backdrop-blur-md"
+                className="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/60 text-white hover:bg-black/80 backdrop-blur-md"
               >
                 <X className="w-5 h-5" />
               </button>
 
-              <div className="relative h-48 w-full bg-slate-900">
+              <div className="relative h-52 w-full bg-slate-900">
                 <img
                   src={activeItemModal.image_url}
                   alt={activeItemModal.name}
@@ -464,12 +502,12 @@ export const DigitalMenuPage: React.FC = () => {
                       {activeItemModal.is_vegetarian ? 'Vegetarian' : 'Non-Vegetarian'}
                     </span>
                     {activeItemModal.is_popular && (
-                      <span className="ml-auto inline-flex items-center gap-1 px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-[10px] font-bold">
+                      <span className="ml-auto inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 text-[10px] font-bold">
                         <Sparkles className="w-2.5 h-2.5" /> Popular
                       </span>
                     )}
                   </div>
-                  <h3 className="text-lg font-bold text-[#071321]">{activeItemModal.name}</h3>
+                  <h3 className="text-lg font-black text-[#071321]">{activeItemModal.name}</h3>
                   <p className="text-xs text-slate-600 mt-2 leading-relaxed">
                     {activeItemModal.description}
                   </p>
@@ -477,8 +515,8 @@ export const DigitalMenuPage: React.FC = () => {
 
                 {activeItemModal.allergens && activeItemModal.allergens.length > 0 && (
                   <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs">
-                    <span className="font-bold text-slate-700">Allergens:</span>{' '}
-                    <span className="text-slate-600">
+                    <span className="font-bold text-slate-700">Allergen Notice:</span>{' '}
+                    <span className="text-slate-600 font-medium">
                       {activeItemModal.allergens.join(', ')}
                     </span>
                   </div>
@@ -486,7 +524,7 @@ export const DigitalMenuPage: React.FC = () => {
 
                 <div className="flex items-center justify-between pt-2 border-t border-slate-100">
                   <div>
-                    <span className="text-xs text-slate-400 block font-medium">Price</span>
+                    <span className="text-[10px] text-slate-400 block font-bold uppercase">Price</span>
                     <span className="text-lg font-black text-[#071321]">
                       {formatCurrency(activeItemModal.price, business.currency)}
                     </span>
@@ -496,9 +534,9 @@ export const DigitalMenuPage: React.FC = () => {
                       addToCart(activeItemModal)
                       setActiveItemModal(null)
                     }}
-                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#087BEE] to-[#13C8F4] text-white text-xs font-bold shadow-md hover:shadow-lg transition-all"
+                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#087BEE] to-[#13C8F4] text-white text-xs font-extrabold shadow-md hover:shadow-lg transition-all"
                   >
-                    Add to Order
+                    Add to Table Tray
                   </button>
                 </div>
               </div>
@@ -510,70 +548,91 @@ export const DigitalMenuPage: React.FC = () => {
         {/* DRAWER: TABLE CART & ORDER SUMMARY                             */}
         {/* ============================================================== */}
         {cartOpen && (
-          <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-xs">
-            <div className="bg-white w-full max-w-md rounded-t-3xl p-6 shadow-2xl relative border-t border-slate-200 animate-in slide-in-from-bottom duration-300 max-h-[85vh] flex flex-col">
+          <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
+            <div className="bg-white w-full max-w-md rounded-t-3xl p-6 shadow-2xl relative border-t border-slate-200 max-h-[85vh] flex flex-col animate-in slide-in-from-bottom duration-300">
               <div className="flex items-center justify-between pb-3 border-b border-slate-200">
                 <div className="flex items-center gap-2">
                   <ShoppingBag className="w-5 h-5 text-[#087BEE]" />
-                  <h3 className="text-base font-bold text-[#071321]">Your Table Order</h3>
+                  <h3 className="text-base font-black text-[#071321]">Your Table Order Tray</h3>
                 </div>
                 <button
                   onClick={() => setCartOpen(false)}
-                  className="p-1 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+                  className="p-1.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              {/* Items List */}
-              <div className="flex-1 overflow-y-auto py-3 space-y-3">
-                {cart.map(({ item, count }) => (
-                  <div key={item.id} className="flex items-center justify-between text-xs">
-                    <div className="flex-1 pr-3">
-                      <p className="font-bold text-slate-900">{item.name}</p>
-                      <p className="text-slate-500">
-                        {formatCurrency(item.price, business.currency)} × {count}
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2 bg-slate-100 rounded-lg p-1">
-                      <button
-                        onClick={() => removeFromCart(item.id)}
-                        className="p-1 text-slate-600 hover:text-red-600"
-                      >
-                        <Minus className="w-3 h-3" />
-                      </button>
-                      <span className="font-bold text-slate-800 w-4 text-center">{count}</span>
-                      <button
-                        onClick={() => addToCart(item)}
-                        className="p-1 text-slate-600 hover:text-[#087BEE]"
-                      >
-                        <Plus className="w-3 h-3" />
-                      </button>
-                    </div>
+              {orderPlaced ? (
+                <div className="py-12 text-center space-y-3">
+                  <div className="w-16 h-16 rounded-3xl bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-sm">
+                    <CheckCircle2 className="w-8 h-8" />
                   </div>
-                ))}
-              </div>
-
-              {/* Order total & confirmation info */}
-              <div className="pt-4 border-t border-slate-200 space-y-3">
-                <div className="flex justify-between text-sm font-bold text-[#071321]">
-                  <span>Total Amount</span>
-                  <span>{formatCurrency(totalCartPrice, business.currency)}</span>
+                  <h4 className="text-lg font-black text-slate-900">Order Confirmed!</h4>
+                  <p className="text-xs text-slate-600 max-w-xs mx-auto leading-relaxed">
+                    Show this summary to your table server. Your items are queued for preparation!
+                  </p>
                 </div>
-                <p className="text-[11px] text-slate-500 text-center">
-                  Show your selected items to your table server or place directly.
-                </p>
-                <button
-                  onClick={() => {
-                    alert('Order requested! Present your screen to the waiter or cashier.')
-                    setCart([])
-                    setCartOpen(false)
-                  }}
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-[#087BEE] to-[#13C8F4] text-white font-bold text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2"
-                >
-                  <CheckCircle2 className="w-4 h-4" /> Confirm Order with Server
-                </button>
-              </div>
+              ) : (
+                <>
+                  {/* Table identifier selector */}
+                  <div className="py-2.5 flex items-center justify-between text-xs border-b border-slate-100">
+                    <span className="text-slate-500 font-semibold">Serving Destination:</span>
+                    <input
+                      type="text"
+                      value={tableNumber}
+                      onChange={(e) => setTableNumber(e.target.value)}
+                      className="px-2.5 py-1 rounded-lg border border-slate-300 font-bold text-slate-800 text-xs w-28 text-right focus:outline-none focus:ring-1 focus:ring-[#087BEE]"
+                    />
+                  </div>
+
+                  {/* Items List */}
+                  <div className="flex-1 overflow-y-auto py-3 space-y-3">
+                    {cart.map(({ item, count }) => (
+                      <div key={item.id} className="flex items-center justify-between text-xs">
+                        <div className="flex-1 pr-3">
+                          <p className="font-extrabold text-slate-900">{item.name}</p>
+                          <p className="text-slate-500 font-medium">
+                            {formatCurrency(item.price, business.currency)} × {count}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-2 bg-slate-100 rounded-xl p-1">
+                          <button
+                            onClick={() => removeFromCart(item.id)}
+                            className="p-1 text-slate-600 hover:text-red-600"
+                          >
+                            <Minus className="w-3 h-3" />
+                          </button>
+                          <span className="font-black text-slate-900 w-4 text-center">{count}</span>
+                          <button
+                            onClick={() => addToCart(item)}
+                            className="p-1 text-slate-600 hover:text-[#087BEE]"
+                          >
+                            <Plus className="w-3 h-3" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Order total & confirmation button */}
+                  <div className="pt-4 border-t border-slate-200 space-y-3">
+                    <div className="flex justify-between text-sm font-black text-[#071321]">
+                      <span>Total Amount</span>
+                      <span>{formatCurrency(totalCartPrice, business.currency)}</span>
+                    </div>
+                    <p className="text-[11px] text-slate-500 text-center">
+                      Tap below to confirm order with your table attendant.
+                    </p>
+                    <button
+                      onClick={handleConfirmOrder}
+                      className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#087BEE] to-[#13C8F4] text-white font-extrabold text-xs shadow-lg hover:shadow-cyan-500/20 transition-all flex items-center justify-center gap-2"
+                    >
+                      <CheckCircle2 className="w-4 h-4" /> Confirm Order with Server
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         )}
@@ -581,4 +640,3 @@ export const DigitalMenuPage: React.FC = () => {
     </div>
   )
 }
-

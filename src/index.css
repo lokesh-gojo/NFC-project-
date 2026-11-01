@@ -3,6 +3,7 @@
 @layer base {
   :root {
     --brand-navy: #071321;
+    --brand-navy-light: #0d223a;
     --brand-blue: #087BEE;
     --brand-cyan: #13C8F4;
     --brand-violet: #8B5CF6;
@@ -13,13 +14,14 @@
     font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     color: #1e293b;
     background-color: #F5F8FC;
+    overflow-x: hidden;
   }
 }
 
 /* Custom modern scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: #f1f5f9;
@@ -34,25 +36,166 @@
 
 /* Glassmorphism utilities */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(226, 232, 240, 0.85);
 }
 
 .glass-panel-dark {
-  background: rgba(7, 19, 33, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(30, 58, 95, 0.4);
+  background: rgba(7, 19, 33, 0.88);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(30, 58, 95, 0.45);
 }
 
+.glass-pill {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Radiant glow effects */
 .glow-blue {
-  box-shadow: 0 0 35px -5px rgba(8, 123, 238, 0.25);
+  box-shadow: 0 0 35px -5px rgba(8, 123, 238, 0.3);
 }
 
 .glow-cyan {
-  box-shadow: 0 0 35px -5px rgba(19, 200, 244, 0.25);
+  box-shadow: 0 0 35px -5px rgba(19, 200, 244, 0.3);
+}
+
+.glow-purple {
+  box-shadow: 0 0 35px -5px rgba(139, 92, 246, 0.3);
+}
+
+.glow-amber {
+  box-shadow: 0 0 35px -5px rgba(245, 158, 11, 0.3);
+}
+
+/* Grid & dot decorative patterns */
+.bg-grid-pattern {
+  background-size: 36px 36px;
+  background-image: 
+    linear-gradient(to right, rgba(8, 123, 238, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(8, 123, 238, 0.05) 1px, transparent 1px);
+}
+
+.bg-grid-dark {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+}
+
+.bg-dot-pattern {
+  background-image: radial-gradient(rgba(8, 123, 238, 0.12) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Mesh gradient backdrop */
+.mesh-gradient-hero {
+  background: 
+    radial-gradient(at 0% 0%, rgba(8, 123, 238, 0.12) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(19, 200, 244, 0.12) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(139, 92, 246, 0.06) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(8, 123, 238, 0.08) 0px, transparent 50%);
+}
+
+.mesh-gradient-dark {
+  background: 
+    radial-gradient(at 15% 15%, rgba(8, 123, 238, 0.25) 0px, transparent 55%),
+    radial-gradient(at 85% 85%, rgba(139, 92, 246, 0.2) 0px, transparent 55%),
+    radial-gradient(at 50% 20%, rgba(19, 200, 244, 0.15) 0px, transparent 50%);
+}
+
+/* Keyframe animations */
+@keyframes nfc-wave {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+.animate-nfc-wave {
+  animation: nfc-wave 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.animate-nfc-wave-delayed {
+  animation: nfc-wave 2.4s cubic-bezier(0, 0.2, 0.8, 1) 0.8s infinite;
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.animate-shimmer::after {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.5) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  animation: shimmer 2.5s infinite;
+  content: '';
+}
+
+/* 3D Card Perspective */
+.perspective-card {
+  perspective: 1200px;
+}
+
+.card-3d-inner {
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-style: preserve-3d;
+}
+
+.card-3d-inner:hover {
+  transform: rotateY(10deg) rotateX(6deg) scale(1.02);
+}
+
+/* Metallic gradient for NFC card visualization */
+.metallic-card {
+  background: linear-gradient(135deg, #071321 0%, #152c4a 50%, #071321 100%);
+  box-shadow: 
+    0 20px 40px -15px rgba(7, 19, 33, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+}
+
+.gold-foil {
+  background: linear-gradient(135deg, #ffe082 0%, #ffd54f 25%, #ffb300 50%, #fff8e1 75%, #ffa000 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Print styling for QR and NFC tent cards */
@@ -69,9 +212,9 @@
     top: 0;
     width: 100%;
     margin: 0;
-    padding: 20px;
+    padding: 24px;
     box-shadow: none !important;
-    border: none !important;
+    border: 1px dashed #cbd5e1 !important;
   }
   .no-print {
     display: none !important;
