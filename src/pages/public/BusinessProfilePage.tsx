@@ -26,6 +26,7 @@ import {
   Check,
   Share2,
   AlertCircle,
+  AlertTriangle,
   X,
   Send,
   ShieldCheck,
@@ -57,6 +58,7 @@ export const BusinessProfilePage: React.FC = () => {
   const [fbEmail, setFbEmail] = useState('')
   const [fbSubmitted, setFbSubmitted] = useState(false)
   const [fbSubmitting, setFbSubmitting] = useState(false)
+  const [fbError, setFbError] = useState<string | null>(null)
 
   useEffect(() => {
     async function loadData() {
@@ -133,6 +135,7 @@ export const BusinessProfilePage: React.FC = () => {
     if (!business || !fbMessage.trim()) return
 
     setFbSubmitting(true)
+    setFbError(null)
     try {
       await submitFeedback({
         business_id: business.id,
@@ -152,8 +155,9 @@ export const BusinessProfilePage: React.FC = () => {
 
       setFbSubmitted(true)
       confetti({ particleCount: 75, spread: 70, origin: { y: 0.65 } })
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to submit feedback:', err)
+      setFbError(err.message || 'Unable to submit feedback. Please try again.')
     } finally {
       setFbSubmitting(false)
     }
@@ -166,6 +170,7 @@ export const BusinessProfilePage: React.FC = () => {
     setFbName('')
     setFbEmail('')
     setFbSubmitted(false)
+    setFbError(null)
     setFeedbackModalOpen(false)
   }
 
@@ -840,6 +845,13 @@ export const BusinessProfilePage: React.FC = () => {
                       />
                     </div>
                   </div>
+
+                  {fbError && (
+                    <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold flex items-center gap-2">
+                      <AlertTriangle className="w-4 h-4 text-red-500 flex-shrink-0" />
+                      <span>{fbError}</span>
+                    </div>
+                  )}
 
                   <button
                     type="submit"

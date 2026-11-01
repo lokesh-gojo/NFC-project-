@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import { getFeedback, markFeedbackReviewed } from '@/services/dataService'
+import { sanitizeCsvCell } from '@/lib/security'
 import { CustomerFeedback } from '@/types'
 import {
   MessageSquareHeart,

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import { updateBusiness } from '@/services/dataService'
+import { isValidRedirectUrl } from '@/lib/security'
 import {
   Star,
   ExternalLink,
@@ -20,6 +21,7 @@ export const GoogleReviewsPage: React.FC = () => {
   const [isEnabled, setIsEnabled] = useState(currentBusiness?.is_google_review_enabled ?? true)
   const [saving, setSaving] = useState(false)
   const [savedSuccess, setSavedSuccess] = useState(false)
+  const [validationError, setValidationError] = useState<string | null>(null)
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -93,6 +95,13 @@ export const GoogleReviewsPage: React.FC = () => {
                 Every customer who taps your NFC review stand or scans the review QR code will be routed directly to this address.
               </p>
             </div>
+
+            {validationError && (
+              <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4 text-red-500 flex-shrink-0" />
+                <span>{validationError}</span>
+              </div>
+            )}
 
             {/* Actions */}
             <div className="pt-4 border-t border-slate-100 flex items-center justify-between">

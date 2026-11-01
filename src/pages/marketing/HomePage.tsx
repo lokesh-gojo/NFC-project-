@@ -649,6 +649,119 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* ============================================================== */}
+      {/* COMPETITIVE DISTINCTION MATRIX: WHY NEXORA OUTCLASSES ALL      */}
+      {/* ============================================================== */}
+      <section className="py-20 bg-[#070B14] border-t border-cyan-500/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="px-3.5 py-1 rounded-full text-xs font-bold bg-cyan-950/60 text-cyan-400 border border-cyan-500/30 uppercase tracking-wider inline-flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5" /> Market Distinction & Analysis
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+              Why Modern Venues Choose Nexora Over Generic Tools
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-400">
+              See how Nexora's smart contactless operating system compares against traditional paper and generic QR generators.
+            </p>
+          </div>
+
+          <div className="overflow-x-auto bg-[#0E1626]/90 rounded-3xl border border-cyan-500/25 shadow-2xl p-6 sm:p-8">
+            <table className="w-full text-left text-xs">
+              <thead>
+                <tr className="border-b border-slate-800 text-slate-400 uppercase tracking-wider text-[10px]">
+                  <th className="py-4 px-4 font-bold">Capability & Experience</th>
+                  <th className="py-4 px-4 font-black text-cyan-400 bg-cyan-950/40 rounded-t-2xl text-center">
+                    ⚡ NEXORA TECHNOLOGIES
+                  </th>
+                  <th className="py-4 px-4 font-bold text-center text-slate-400">
+                    Legacy Paper Menus
+                  </th>
+                  <th className="py-4 px-4 font-bold text-center text-slate-400">
+                    Clunky PDF QR Codes
+                  </th>
+                  <th className="py-4 px-4 font-bold text-center text-slate-400">
+                    Generic Link-in-Bio
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800/80">
+                {[
+                  {
+                    feature: 'Contactless NFC Tap Speed',
+                    nexora: 'Sub-0.4s Instant (No App Needed)',
+                    paper: 'None (Physical paper)',
+                    pdf: 'No NFC Support',
+                    generic: 'Slow link redirection'
+                  },
+                  {
+                    feature: 'Live Kitchen 86\'d & Price Updates',
+                    nexora: '1-Click Instant Sync in Dashboard',
+                    paper: 'Costly reprints (₹40,000+/yr)',
+                    pdf: 'Must re-upload whole PDF',
+                    generic: 'Manual link editing only'
+                  },
+                  {
+                    feature: 'Google Maps Reviews Booster',
+                    nexora: '1-Tap Anti-Gating Compliant (+420%)',
+                    paper: 'Passive hope / zero prompt',
+                    pdf: 'Zero review prompts',
+                    generic: 'Violates Google policies'
+                  },
+                  {
+                    feature: 'Private Guest Feedback Shield',
+                    nexora: 'Direct Private Owner Vault',
+                    paper: 'Verbal complaints only',
+                    pdf: 'No feedback channel',
+                    generic: 'Public review exposure'
+                  },
+                  {
+                    feature: 'Guest Wi-Fi Auto-Pairing',
+                    nexora: '1-Tap Camera/NFC Auto-Connect',
+                    paper: 'Manual chalkboard reading',
+                    pdf: 'No Wi-Fi integration',
+                    generic: 'Manual password typing'
+                  },
+                  {
+                    feature: 'Physical Stand Hardware',
+                    nexora: 'Laser Acrylic Tents & Walnut Pucks',
+                    paper: 'Worn paper laminates',
+                    pdf: 'Paper stickers taped down',
+                    generic: 'Basic plastic cards only'
+                  },
+                  {
+                    feature: 'Security & Open-Redirect Defense',
+                    nexora: 'Full RLS + Protocol Verification',
+                    paper: 'N/A',
+                    pdf: 'Static unencrypted hosting',
+                    generic: 'Basic link tracker'
+                  }
+                ].map((row, rIdx) => (
+                  <tr key={rIdx} className="hover:bg-cyan-950/20 transition-colors">
+                    <td className="py-3.5 px-4 font-bold text-white flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+                      <span>{row.feature}</span>
+                    </td>
+                    <td className="py-3.5 px-4 text-center bg-cyan-950/30 font-black text-cyan-300">
+                      {row.nexora}
+                    </td>
+                    <td className="py-3.5 px-4 text-center text-slate-400 font-medium">
+                      {row.paper}
+                    </td>
+                    <td className="py-3.5 px-4 text-center text-slate-400 font-medium">
+                      {row.pdf}
+                    </td>
+                    <td className="py-3.5 px-4 text-center text-slate-400 font-medium">
+                      {row.generic}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
       {/* VERIFIED CUSTOMER CASE STUDIES & TESTIMONIALS                  */}
       {/* ============================================================== */}
       <section className="py-20 bg-[#060A13] border-t border-cyan-500/20">

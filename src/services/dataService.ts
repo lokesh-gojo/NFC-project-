@@ -1,4 +1,5 @@
 import { supabase, isSupabaseConfigured } from '@/lib/supabase'
+import { sanitizeText, sanitizePhone, checkRateLimit } from '@/lib/security'
 import {
   Business,
   MenuCategory,
@@ -111,6 +112,21 @@ initializeLocalStorage()
 // ==========================================
 // BUSINESS & PROFILE APIS
 // ==========================================
+
+export async function getBusinessById(id: string): Promise<Business | null> {
+  if (isSupabaseConfigured && supabase) {
+    const { data, error } = await supabase
+      .from('businesses')
+      .select('*')
+      .eq('id', id)
+      .maybeSingle()
+    if (!error && data) return data as Business
+  }
+
+  // Fallback to local storage
+  const businesses: Business[] = JSON.parse(localStorage.getItem(STORAGE_KEYS.BUSINESSES) || '[]')
+  return businesses.find((b) => b.id === id) || (id === DEMO_BUSINESS.id ? DEMO_BUSINESS : null)
+}
 
 export async function getBusinessBySlug(slug: string): Promise<Business | null> {
   if (isSupabaseConfigured && supabase) {
@@ -419,9 +435,27 @@ export async function saveWifiSettings(settings: Partial<WifiSetting> & { busine
 // ==========================================
 
 export async function submitFeedback(feedback: Omit<CustomerFeedback, 'id' | 'created_at' | 'is_reviewed'>): Promise<CustomerFeedback> {
+  // Defensive rate limiting: max 4 feedback submissions per 2 minutes per session
+  const rateCheck = checkRateLimit(`fb_${feedback.business_id}`, 4, 120000)
+  if (!rateCheck.allowed) {
+    throw new Error(`Rate limit exceeded. Please wait ${rateCheck.retryAfterSeconds}s before submitting feedback again.`)
+  }
+
+  // Sanitize user inputs to protect against Stored XSS and payload flooding
+  const sanitizedMessage = sanitizeText(feedback.message, 1000)
+  const sanitizedName = sanitizeText(feedback.customer_name, 100)
+  const sanitizedPhone = sanitizePhone(feedback.customer_phone)
+  const sanitizedEmail = sanitizeText(feedback.customer_email, 100)
+
   const newFeedback: CustomerFeedback = {
     id: 'fb_' + Math.random().toString(36).substring(2, 9),
-    ...feedback,
+    business_id: feedback.business_id,
+    rating: Math.min(5, Math.max(1, Number(feedback.rating) || 5)),
+    category: feedback.category || 'general',
+    customer_name: sanitizedName || undefined,
+    message: sanitizedMessage,
+    customer_phone: sanitizedPhone || undefined,
+    customer_email: sanitizedEmail || undefined,
     is_reviewed: false,
     created_at: new Date().toISOString()
   }
@@ -528,6 +562,8 @@ export async function deleteOffer(id: string): Promise<void> {
 // ANALYTICS & EVENT TRACKING
 // ==========================================
 
+const lastTrackedMap: Record<string, number> = {}
+
 export async function trackEvent(params: {
   business_id: string
   event_type: AnalyticsEventType
@@ -535,6 +571,12 @@ export async function trackEvent(params: {
   meta?: Record<string, any>
 }): Promise<void> {
   const sessionId = getOrCreateSessionId()
+  const throttleKey = `${sessionId}_${params.event_type}_${params.smart_link_id || 'direct'}`
+  const nowTs = Date.now()
+  if (lastTrackedMap[throttleKey] && nowTs - lastTrackedMap[throttleKey] < 8000) {
+    return
+  }
+  lastTrackedMap[throttleKey] = nowTs
   const isMobile = typeof navigator !== 'undefined' && /Mobi|Android|iPhone/i.test(navigator.userAgent)
   const deviceType = isMobile ? 'mobile' : 'desktop'
 
