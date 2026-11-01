@@ -10,7 +10,17 @@ VALUES (
     'demo@nexora.app',
     '+91 98765 43210',
     'business_owner'
-) O  N CONFLICT (id) DO NOTHING;
+) ON CONFLICT (id) DO NOTHING;
+
+-- 1b. Mock Super Admin Profile
+INSERT INTO public.profiles (id, full_name, email, phone, role)
+VALUES (
+    'a0000000-0000-0000-0000-000000000002',
+    'Nexora Super Admin',
+    'admin@nexora.app',
+    '+91 99999 00000',
+    'super_admin'
+) ON CONFLICT (id) DO NOTHING;
 
 -- 2. Business: Cafe Aroma
 INSERT INTO public.businesses (
@@ -39,54 +49,43 @@ INSERT INTO public.businesses (
     'https://maps.google.com/?q=Cafe+Aroma+Bengaluru',
     'https://g.page/r/demo-cafe-aroma/review',
     true,
-    'INR',
-    '₹',
-    'active',
-    true,
-    'growth',
-    true
-) ON CONFLICT (id) DO NOTHING;
+    'INR', '₹', 'active', true,
+    'growth', true
+) ON CONFLICT (slug) DO NOTHING;
 
--- 3. Wi-Fi Settings
+-- 3. Guest Wi-Fi Settings
 INSERT INTO public.wifi_settings (
     business_id, ssid, password, encryption, is_hidden, is_enabled, instructions
 ) VALUES (
     'b0000000-0000-0000-0000-000000000001',
-    'CafeAroma_Guest_HighSpeed',
-    'BrewFresh2025!',
+    'CafeAroma_Guest_5G',
+    'CraftCoffee2025',
     'WPA',
     false,
     true,
-    'Scan the QR code to auto-connect or select CafeAroma_Guest_HighSpeed in your Wi-Fi settings.'
+    'Point your camera at this code or tap your NFC stand to connect automatically without password entry.'
 ) ON CONFLICT (business_id) DO NOTHING;
 
 -- 4. Menu Categories
-INSERT INTO public.menu_categories (id, business_id, name, description, sort_order) VALUES
-('c0000000-0000-0000-0000-000000000001', 'b0000000-0000-0000-0000-000000000001', 'Specialty Coffees', 'Locally roasted single-origin Arabica beans crafted by master baristas', 1),
-('c0000000-0000-0000-0000-000000000002', 'b0000000-0000-0000-0000-000000000002', 'Artisan Bakery', 'Freshly baked flaky croissants, sourdough and daily treats', 2),
-('c0000000-0000-0000-0000-000000000003', 'b0000000-0000-0000-0000-000000000003', 'All-Day Brunch', 'Sustaining plates loaded with wholesome farm-fresh organic ingredients', 3),
-('c0000000-0000-0000-0000-000000000004', 'b0000000-0000-0000-0000-000000000004', 'Refreshers & Teas', 'Organic loose-leaf teas, kombucha and refreshing citrus sparklers', 4)
+INSERT INTO public.menu_categories (id, business_id, name, description, sort_order)
+VALUES
+('c0000000-0000-0000-0000-000000000001', 'b0000000-0000-0000-0000-000000000001', 'Specialty Coffee & Espresso', 'Single-origin beans freshly ground & handcrafted with artisanal precision', 1),
+('c0000000-0000-0000-0000-000000000002', 'b0000000-0000-0000-0000-000000000001', 'Handcrafted Viennoiserie', 'Slow-fermented French butter croissants and seasonal sourdough pastries', 2),
+('c0000000-0000-0000-0000-000000000003', 'b0000000-0000-0000-0000-000000000001', 'Artisan Sourdough & Brunch', 'Fresh toasted country loaves with organic avocado, burrata & farm greens', 3),
+('c0000000-0000-0000-0000-000000000004', 'b0000000-0000-0000-0000-000000000001', 'Cold Brews & Coolers', '24-hour slow steeped cold coffees and botanical fruit refreshers', 4)
 ON CONFLICT (id) DO NOTHING;
 
 -- 5. Menu Items
 INSERT INTO public.menu_items (
-    business_id, category_id, name, description, price, image_url,
-    is_vegetarian, is_available, is_popular, calories, sort_order
+    business_id, category_id, name, description, price, image_url, is_vegetarian, is_available, is_popular, calories, sort_order
 ) VALUES
--- Coffees
-('b0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000001', 'Signature Velvet Flat White', 'Double ristretto with micro-foamed organic whole milk or oat milk', 240.00, 'https://images.unsplash.com/photo-1577968897966-3d4325b36b61?auto=format&fit=crop&w=600&q=80', true, true, true, 140, 1),
-('b0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000001', 'Single-Origin Pour Over (V60)', 'Ethiopian Yirgacheffe with floral jasmine and wild berry notes', 280.00, 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', true, true, false, 5, 2),
-('b0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000001', 'Spanish Iced Latte with Condensed Milk', 'Bold espresso poured over iced sweetened condensed milk and cinnamon dust', 260.00, 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80', true, true, true, 210, 3),
-
--- Bakery
-('b0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000002', 'French Butter Croissant', 'Golden baked with 82% Normandy cultured butter, flaky layered crust', 190.00, 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80', true, true, true, 280, 1),
-('b0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000002', 'Almond Frangipane Brioche', 'Toasted almond slivers, creamy almond cream and powdered sugar', 230.00, 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80', true, true, false, 340, 2),
-
--- Brunch
-('b0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000003', 'Truffle Mushroom Sourdough Toast', 'Wild cremini and shiitake mushrooms, truffle crema, shaved pecorino on toasted rustic sourdough', 390.00, 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80', true, true, true, 420, 1),
-('b0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000003', 'Hass Avocado & Poached Egg Tartine', 'Crushed Hass avocado, poached cage-free egg, chili flakes and microgreens', 360.00, 'https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?auto=format&fit=crop&w=600&q=80', false, true, true, 380, 2),
-
--- Refreshers
+('b0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000001', 'Signature Velvet Flat White', 'Double ristretto shot with micro-foamed organic whole milk or oat milk', 240.00, 'https://images.unsplash.com/photo-1577968897966-3d4325b36b61?auto=format&fit=crop&w=600&q=80', true, true, true, 140, 1),
+('b0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000001', 'Ethiopian Yirgacheffe Pour-Over', 'V60 pour-over showcasing floral jasmine, bergamot, and sweet apricot notes', 280.00, 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', true, true, false, 5, 2),
+('b0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000001', 'Spanish Iced Cortado', 'Espresso layered over sweetened condensed milk and chilled over clear ice', 260.00, 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=600&q=80', true, true, true, 190, 3),
+('b0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000002', 'Pain au Chocolat Pure Beurre', 'Flaky 72-hour laminated French pastry with dual Valrhona 66% dark chocolate batons', 210.00, 'https://images.unsplash.com/photo-1549903072-7e6e0bedb7fb?auto=format&fit=crop&w=600&q=80', true, true, true, 320, 1),
+('b0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000002', 'Pistachio Cardamom Cruffin', 'Sugar-rolled croissant muffin filled with roasted pistachio praline diplomat cream', 250.00, 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80', true, true, true, 380, 2),
+('b0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000003', 'Truffle Mushroom Sourdough Tartine', 'Wild forest mushrooms sautéed in garlic thyme butter over whipped ricotta on sourdough', 420.00, 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80', true, true, true, 410, 1),
+('b0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000003', 'Hass Avocado & Poached Burrata', 'Sliced Hass avocado, cherry confit tomatoes, aged balsamic reduction on toasted sourdough', 460.00, 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80', true, true, false, 480, 2),
 ('b0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000004', 'Ceremonial Japanese Matcha Latte', 'Uji ceremonial grade matcha whisked with oat milk and honey nectar', 290.00, 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80', true, true, true, 160, 1),
 ('b0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000004', 'Yuzu Berry Sparkling Cooler', 'Sparkling infused water with natural Japanese yuzu, blackberries and fresh mint', 220.00, 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80', true, true, false, 80, 2);
 
